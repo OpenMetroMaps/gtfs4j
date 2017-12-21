@@ -20,14 +20,33 @@ package org.openmetromaps.gtfs4j.model;
 public class Route
 {
 
+	// required
 	private String id;
+
+	// optional
+	private String agencyId;
+
+	// required
 	private String shortName;
 	private String longName;
 
-	public Route(String id, String shortName, String longName)
+	// optional
+	private String desc;
+
+	// required
+	private String type;
+
+	// optional
+	private String url;
+	private String color;
+	private String textColor;
+
+	public Route(String id, String shortName, String longName, String type)
 	{
 		this.id = id;
 		this.shortName = shortName;
+		this.longName = longName;
+		this.type = type;
 	}
 
 	public String getId()
@@ -38,6 +57,16 @@ public class Route
 	public void setId(String id)
 	{
 		this.id = id;
+	}
+
+	public String getAgencyId()
+	{
+		return agencyId;
+	}
+
+	public void setAgencyId(String agencyId)
+	{
+		this.agencyId = agencyId;
 	}
 
 	public String getShortName()
@@ -58,6 +87,56 @@ public class Route
 	public void setLongName(String longName)
 	{
 		this.longName = longName;
+	}
+
+	public String getDesc()
+	{
+		return desc;
+	}
+
+	public void setDesc(String desc)
+	{
+		this.desc = desc;
+	}
+
+	public String getType()
+	{
+		return type;
+	}
+
+	public void setType(String type)
+	{
+		this.type = type;
+	}
+
+	public String getUrl()
+	{
+		return url;
+	}
+
+	public void setUrl(String url)
+	{
+		this.url = url;
+	}
+
+	public String getColor()
+	{
+		return color;
+	}
+
+	public void setColor(String color)
+	{
+		this.color = color;
+	}
+
+	public String getTextColor()
+	{
+		return textColor;
+	}
+
+	public void setTextColor(String textColor)
+	{
+		this.textColor = textColor;
 	}
 
 }

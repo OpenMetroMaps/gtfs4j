@@ -35,6 +35,7 @@ public class RoutesReader
 	private int idxRouteId;
 	private int idxShortName;
 	private int idxLongName;
+	private int idxType;
 
 	public RoutesReader(Reader reader) throws IOException
 	{
@@ -45,6 +46,7 @@ public class RoutesReader
 		idxRouteId = Util.getIndex(head, "route_id");
 		idxShortName = Util.getIndex(head, "route_short_name");
 		idxLongName = Util.getIndex(head, "route_long_name");
+		idxType = Util.getIndex(head, "route_type");
 	}
 
 	public List<Route> readAll() throws IOException
@@ -59,7 +61,8 @@ public class RoutesReader
 			String id = parts[idxRouteId];
 			String shortName = parts[idxShortName];
 			String longName = parts[idxLongName];
-			routes.add(new Route(id, shortName, longName));
+			String type = parts[idxType];
+			routes.add(new Route(id, shortName, longName, type));
 		}
 
 		csvReader.close();
