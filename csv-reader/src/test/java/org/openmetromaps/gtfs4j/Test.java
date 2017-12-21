@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+import org.openmetromaps.gtfs4j.csv.GtfsFiles;
 import org.openmetromaps.gtfs4j.csvreader.RoutesReader;
 import org.openmetromaps.gtfs4j.csvreader.StopTimesReader;
 import org.openmetromaps.gtfs4j.csvreader.StopsReader;
