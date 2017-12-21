@@ -20,8 +20,8 @@ subprojects {
     }
 }
 
-configure([project(':gtfs-core'),
-        project(':gtfs-csv-reader')]) {
+configure([project(':gtfs4j-core'),
+        project(':gtfs4j-csv-reader')]) {
 
     task sourcesJar(type: Jar, dependsOn: classes) {
         classifier = 'sources'

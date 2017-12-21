@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
-  <name>GTFS</name>
-  <description>GTFS library</description>
-  <url>https://github.com/OpenMetroMaps/gtfs</url>
+  <name>gtfs4j</name>
+  <description>gtfs4j: GTFS Java library</description>
+  <url>https://github.com/OpenMetroMaps/gtfs4j</url>
   <licenseName>GNU Lesser General Public License (LGPL), Version 3</licenseName>
   <licenseUrl>https://www.gnu.org/licenses/lgpl-3.0.txt</licenseUrl>
   <licenseDistribution>repo</licenseDistribution>

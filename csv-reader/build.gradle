@@ -4,5 +4,5 @@ if (project.hasProperty("topobyte")) {
 }
 
 dependencies {
-    compile project(':gtfs-core')
+    compile project(':gtfs4j-core')
 }

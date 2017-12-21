@@ -1,6 +1,6 @@
 dependencies {
-    compile project(':gtfs-core')
-    compile project(':gtfs-csv-reader')
+    compile project(':gtfs4j-core')
+    compile project(':gtfs4j-csv-reader')
 }
 
 task copyJars(type: Copy) {
