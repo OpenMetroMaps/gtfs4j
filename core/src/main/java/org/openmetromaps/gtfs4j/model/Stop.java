@@ -20,10 +20,29 @@ package org.openmetromaps.gtfs4j.model;
 public class Stop
 {
 
+	// required
 	private String id;
+
+	// optional
+	private String code;
+
+	// required
 	private String name;
+
+	// optional
+	private String desc;
+
+	// required
 	private String lat;
 	private String lon;
+
+	// optional
+	private String zoneId;
+	private String url;
+	private String locationType;
+	private String parentStation;
+	private String timezone;
+	private String wheelchairBoarding;
 
 	public Stop(String id, String name, String lat, String lon)
 	{
@@ -43,6 +62,16 @@ public class Stop
 		this.id = id;
 	}
 
+	public String getCode()
+	{
+		return code;
+	}
+
+	public void setCode(String code)
+	{
+		this.code = code;
+	}
+
 	public String getName()
 	{
 		return name;
@@ -51,6 +80,16 @@ public class Stop
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+
+	public String getDesc()
+	{
+		return desc;
+	}
+
+	public void setDesc(String desc)
+	{
+		this.desc = desc;
 	}
 
 	public String getLat()
@@ -71,6 +110,66 @@ public class Stop
 	public void setLon(String lon)
 	{
 		this.lon = lon;
+	}
+
+	public String getZoneId()
+	{
+		return zoneId;
+	}
+
+	public void setZoneId(String zoneId)
+	{
+		this.zoneId = zoneId;
+	}
+
+	public String getUrl()
+	{
+		return url;
+	}
+
+	public void setUrl(String url)
+	{
+		this.url = url;
+	}
+
+	public String getLocationType()
+	{
+		return locationType;
+	}
+
+	public void setLocationType(String locationType)
+	{
+		this.locationType = locationType;
+	}
+
+	public String getParentStation()
+	{
+		return parentStation;
+	}
+
+	public void setParentStation(String parentStation)
+	{
+		this.parentStation = parentStation;
+	}
+
+	public String getTimezone()
+	{
+		return timezone;
+	}
+
+	public void setTimezone(String timezone)
+	{
+		this.timezone = timezone;
+	}
+
+	public String getWheelchairBoarding()
+	{
+		return wheelchairBoarding;
+	}
+
+	public void setWheelchairBoarding(String wheelchairBoarding)
+	{
+		this.wheelchairBoarding = wheelchairBoarding;
 	}
 
 }
