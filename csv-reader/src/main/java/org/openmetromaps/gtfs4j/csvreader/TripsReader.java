@@ -22,7 +22,6 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.openmetromaps.gtfs4j.Util;
 import org.openmetromaps.gtfs4j.model.Trip;
 
 import au.com.bytecode.opencsv.CSVReader;
