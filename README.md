@@ -1,6 +1,8 @@
 # About
 
 A Java library for working with GTFS static data.
+See the [GTFS Reference](http://gtfs.org/reference/) for details on the
+format specification.
 
 # License
 
