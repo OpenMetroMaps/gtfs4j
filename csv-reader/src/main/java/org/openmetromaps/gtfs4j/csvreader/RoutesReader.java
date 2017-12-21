@@ -20,8 +20,11 @@ package org.openmetromaps.gtfs4j.csvreader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
+import org.openmetromaps.gtfs4j.csv.Routes;
 import org.openmetromaps.gtfs4j.model.Route;
 
 import au.com.bytecode.opencsv.CSVReader;
@@ -31,10 +34,7 @@ public class RoutesReader
 
 	private CSVReader csvReader;
 
-	private int idxId;
-	private int idxShortName;
-	private int idxLongName;
-	private int idxType;
+	private Map<Routes, Integer> idx = new EnumMap<>(Routes.class);
 
 	public RoutesReader(Reader reader) throws IOException
 	{
@@ -42,10 +42,15 @@ public class RoutesReader
 
 		String[] head = csvReader.readNext();
 
-		idxId = Util.getIndex(head, "route_id");
-		idxShortName = Util.getIndex(head, "route_short_name");
-		idxLongName = Util.getIndex(head, "route_long_name");
-		idxType = Util.getIndex(head, "route_type");
+		for (Routes field : Routes.values()) {
+			int index = Util.getIndex(head, field.getCsvName());
+			idx.put(field, index);
+		}
+	}
+
+	private boolean hasField(Routes field)
+	{
+		return idx.get(field) >= 0;
 	}
 
 	public List<Route> readAll() throws IOException
@@ -57,16 +62,40 @@ public class RoutesReader
 			if (parts == null) {
 				break;
 			}
-			String id = parts[idxId];
-			String shortName = parts[idxShortName];
-			String longName = parts[idxLongName];
-			String type = parts[idxType];
-			routes.add(new Route(id, shortName, longName, type));
+			Route route = parse(parts);
+			routes.add(route);
 		}
 
 		csvReader.close();
 
 		return routes;
+	}
+
+	private Route parse(String[] parts)
+	{
+		String id = parts[idx.get(Routes.ID)];
+		String shortName = parts[idx.get(Routes.SHORT_NAME)];
+		String longName = parts[idx.get(Routes.LONG_NAME)];
+		String type = parts[idx.get(Routes.TYPE)];
+		Route route = new Route(id, shortName, longName, type);
+
+		if (hasField(Routes.AGENCY_ID)) {
+			route.setAgencyId(parts[idx.get(Routes.AGENCY_ID)]);
+		}
+		if (hasField(Routes.DESC)) {
+			route.setDesc(parts[idx.get(Routes.DESC)]);
+		}
+		if (hasField(Routes.URL)) {
+			route.setUrl(parts[idx.get(Routes.URL)]);
+		}
+		if (hasField(Routes.COLOR)) {
+			route.setColor(parts[idx.get(Routes.COLOR)]);
+		}
+		if (hasField(Routes.TEXT_COLOR)) {
+			route.setTextColor(parts[idx.get(Routes.TEXT_COLOR)]);
+		}
+
+		return route;
 	}
 
 }
