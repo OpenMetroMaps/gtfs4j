@@ -15,30 +15,22 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with gtfs4j. If not, see <http://www.gnu.org/licenses/>.
 
-package org.openmetromaps.gtfs4j;
+package org.openmetromaps.gtfs4j.model;
 
-public class Agency
+public class Stop
 {
 
-	// optional
 	private String id;
-
-	// required
 	private String name;
-	private String url;
-	private String timezone;
+	private String lat;
+	private String lon;
 
-	// optional
-	private String lang;
-	private String phone;
-	private String fareUrl;
-	private String email;
-
-	public Agency(String name, String url, String timezone)
+	public Stop(String id, String name, String lat, String lon)
 	{
+		this.id = id;
 		this.name = name;
-		this.url = url;
-		this.timezone = timezone;
+		this.lat = lat;
+		this.lon = lon;
 	}
 
 	public String getId()
@@ -61,64 +53,24 @@ public class Agency
 		this.name = name;
 	}
 
-	public String getUrl()
+	public String getLat()
 	{
-		return url;
+		return lat;
 	}
 
-	public void setUrl(String url)
+	public void setLat(String lat)
 	{
-		this.url = url;
+		this.lat = lat;
 	}
 
-	public String getTimezone()
+	public String getLon()
 	{
-		return timezone;
+		return lon;
 	}
 
-	public void setTimezone(String timezone)
+	public void setLon(String lon)
 	{
-		this.timezone = timezone;
-	}
-
-	public String getLang()
-	{
-		return lang;
-	}
-
-	public void setLang(String lang)
-	{
-		this.lang = lang;
-	}
-
-	public String getPhone()
-	{
-		return phone;
-	}
-
-	public void setPhone(String phone)
-	{
-		this.phone = phone;
-	}
-
-	public String getFareUrl()
-	{
-		return fareUrl;
-	}
-
-	public void setFareUrl(String fareUrl)
-	{
-		this.fareUrl = fareUrl;
-	}
-
-	public String getEmail()
-	{
-		return email;
-	}
-
-	public void setEmail(String email)
-	{
-		this.email = email;
+		this.lon = lon;
 	}
 
 }

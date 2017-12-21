@@ -22,7 +22,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.openmetromaps.gtfs4j.Stop;
+import org.openmetromaps.gtfs4j.model.Stop;
 
 import au.com.bytecode.opencsv.CSVReader;
 

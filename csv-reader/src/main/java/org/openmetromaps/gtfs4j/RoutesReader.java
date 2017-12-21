@@ -22,7 +22,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.openmetromaps.gtfs4j.Route;
+import org.openmetromaps.gtfs4j.model.Route;
 
 import au.com.bytecode.opencsv.CSVReader;
 
