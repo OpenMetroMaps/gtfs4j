@@ -5,4 +5,9 @@ if (project.hasProperty("topobyte")) {
 
 dependencies {
     compile project(':gtfs4j-core')
+
+    compile 'net.sf.opencsv:opencsv:2.3'
+
+    testRuntime 'org.slf4j:slf4j-log4j12:1.6.1'
+    testRuntime 'log4j:log4j:1.2.16'
 }
