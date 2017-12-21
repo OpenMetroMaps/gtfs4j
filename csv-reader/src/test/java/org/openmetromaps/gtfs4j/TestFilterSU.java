@@ -24,6 +24,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.openmetromaps.gtfs4j.model.Route;
+import org.openmetromaps.gtfs4j.model.Stop;
 import org.openmetromaps.gtfs4j.model.StopTime;
 import org.openmetromaps.gtfs4j.model.Trip;
 
@@ -80,6 +81,22 @@ public class TestFilterSU
 				numStopTimes, stopTimes.size()));
 		System.out
 				.println(String.format("number of stops: %d", stopIds.size()));
+
+		Set<String> parentStationIds = new HashSet<>();
+
+		List<Stop> stops = Test.readStops();
+		for (Stop stop : stops) {
+			if (stopIds.contains(stop.getId())) {
+				System.out.println(stop.getName());
+				if (stop.getParentStation() != null
+						&& !stop.getParentStation().isEmpty()) {
+					parentStationIds.add(stop.getParentStation());
+				}
+			}
+		}
+
+		System.out.println(String.format("number of parent stations: %d",
+				parentStationIds.size()));
 	}
 
 }
