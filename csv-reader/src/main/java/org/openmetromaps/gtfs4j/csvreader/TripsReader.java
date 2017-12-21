@@ -22,28 +22,24 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.openmetromaps.gtfs4j.csv.Trips;
 import org.openmetromaps.gtfs4j.model.Trip;
 
 import au.com.bytecode.opencsv.CSVReader;
 
-public class TripsReader
+public class TripsReader extends BaseReader<Trips>
 {
 
 	private CSVReader csvReader;
 
-	private int idxRouteId;
-	private int idxServiceId;
-	private int idxId;
-
 	public TripsReader(Reader reader) throws IOException
 	{
+		super(Trips.class);
+
 		csvReader = Util.defaultCsvReader(reader);
 
 		String[] head = csvReader.readNext();
-
-		idxRouteId = Util.getIndex(head, "route_id");
-		idxServiceId = Util.getIndex(head, "service_id");
-		idxId = Util.getIndex(head, "trip_id");
+		initIndexes(head);
 	}
 
 	public List<Trip> readAll() throws IOException
@@ -55,15 +51,47 @@ public class TripsReader
 			if (parts == null) {
 				break;
 			}
-			String routeId = parts[idxRouteId];
-			String serviceId = parts[idxServiceId];
-			String id = parts[idxId];
-			routes.add(new Trip(routeId, serviceId, id));
+			Trip trip = parse(parts);
+			routes.add(trip);
 		}
 
 		csvReader.close();
 
 		return routes;
+	}
+
+	private Trip parse(String[] parts)
+	{
+		String routeId = parts[idx.get(Trips.ROUTE_ID)];
+		String serviceId = parts[idx.get(Trips.SERVICE_ID)];
+		String id = parts[idx.get(Trips.ID)];
+
+		Trip trip = new Trip(routeId, serviceId, id);
+
+		if (hasField(Trips.HEADSIGN)) {
+			trip.setHeadsign(parts[idx.get(Trips.HEADSIGN)]);
+		}
+		if (hasField(Trips.SHORT_NAME)) {
+			trip.setShortName(parts[idx.get(Trips.SHORT_NAME)]);
+		}
+		if (hasField(Trips.DIRECTION_ID)) {
+			trip.setDirectionId(parts[idx.get(Trips.DIRECTION_ID)]);
+		}
+		if (hasField(Trips.BLOCK_ID)) {
+			trip.setBlockId(parts[idx.get(Trips.BLOCK_ID)]);
+		}
+		if (hasField(Trips.SHAPE_ID)) {
+			trip.setShapeId(parts[idx.get(Trips.SHAPE_ID)]);
+		}
+		if (hasField(Trips.WHEELCHAIR_ACCESSIBLE)) {
+			trip.setWheelchairAccessible(
+					parts[idx.get(Trips.WHEELCHAIR_ACCESSIBLE)]);
+		}
+		if (hasField(Trips.BIKES_ALLOWED)) {
+			trip.setBikesAllowed(parts[idx.get(Trips.BIKES_ALLOWED)]);
+		}
+
+		return trip;
 	}
 
 }

@@ -67,6 +67,7 @@ public class RoutesReader extends BaseReader<Routes>
 		String shortName = parts[idx.get(Routes.SHORT_NAME)];
 		String longName = parts[idx.get(Routes.LONG_NAME)];
 		String type = parts[idx.get(Routes.TYPE)];
+
 		Route route = new Route(id, shortName, longName, type);
 
 		if (hasField(Routes.AGENCY_ID)) {

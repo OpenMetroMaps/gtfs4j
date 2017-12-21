@@ -22,32 +22,24 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.openmetromaps.gtfs4j.csv.StopTimes;
 import org.openmetromaps.gtfs4j.model.StopTime;
 
 import au.com.bytecode.opencsv.CSVReader;
 
-public class StopTimesReader
+public class StopTimesReader extends BaseReader<StopTimes>
 {
 
 	private CSVReader csvReader;
 
-	private int idxTripId;
-	private int idxArrivalTime;
-	private int idxDepartureTime;
-	private int idxStopId;
-	private int idxStopSequence;
-
 	public StopTimesReader(Reader reader) throws IOException
 	{
+		super(StopTimes.class);
+
 		csvReader = Util.defaultCsvReader(reader);
 
 		String[] head = csvReader.readNext();
-
-		idxTripId = Util.getIndex(head, "trip_id");
-		idxArrivalTime = Util.getIndex(head, "arrival_time");
-		idxDepartureTime = Util.getIndex(head, "departure_time");
-		idxStopId = Util.getIndex(head, "stop_id");
-		idxStopSequence = Util.getIndex(head, "stop_sequence");
+		initIndexes(head);
 	}
 
 	public List<StopTime> readAll() throws IOException
@@ -59,18 +51,44 @@ public class StopTimesReader
 			if (parts == null) {
 				break;
 			}
-			String tripId = parts[idxTripId];
-			String arrivaleTime = parts[idxArrivalTime];
-			String departureTime = parts[idxDepartureTime];
-			String stopId = parts[idxStopId];
-			String stopSequence = parts[idxStopSequence];
-			results.add(new StopTime(tripId, arrivaleTime, departureTime,
-					stopId, stopSequence));
+			StopTime stopTime = parse(parts);
+			results.add(stopTime);
 		}
 
 		csvReader.close();
 
 		return results;
+	}
+
+	private StopTime parse(String[] parts)
+	{
+		String tripId = parts[idx.get(StopTimes.TRIP_ID)];
+		String arrivalTime = parts[idx.get(StopTimes.ARRVIAL_TIME)];
+		String departureTime = parts[idx.get(StopTimes.DEPARTURE_TIME)];
+		String stopId = parts[idx.get(StopTimes.STOP_ID)];
+		String stopSequence = parts[idx.get(StopTimes.STOP_SEQUENCE)];
+
+		StopTime stopTime = new StopTime(tripId, arrivalTime, departureTime,
+				stopId, stopSequence);
+
+		if (hasField(StopTimes.STOP_HEADSIGN)) {
+			stopTime.setStopHeadsign(parts[idx.get(StopTimes.STOP_HEADSIGN)]);
+		}
+		if (hasField(StopTimes.PICKUP_TYPE)) {
+			stopTime.setPickupType(parts[idx.get(StopTimes.PICKUP_TYPE)]);
+		}
+		if (hasField(StopTimes.DROP_OFF_TYPE)) {
+			stopTime.setDropOffType(parts[idx.get(StopTimes.DROP_OFF_TYPE)]);
+		}
+		if (hasField(StopTimes.SHAPE_DIST_TRAVELED)) {
+			stopTime.setShapeDistTraveled(
+					parts[idx.get(StopTimes.SHAPE_DIST_TRAVELED)]);
+		}
+		if (hasField(StopTimes.TIMEPOINT)) {
+			stopTime.setTimepoint(parts[idx.get(StopTimes.TIMEPOINT)]);
+		}
+
+		return stopTime;
 	}
 
 }

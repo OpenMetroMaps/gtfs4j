@@ -22,32 +22,24 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.openmetromaps.gtfs4j.csv.Stops;
 import org.openmetromaps.gtfs4j.model.Stop;
 
 import au.com.bytecode.opencsv.CSVReader;
 
-public class StopsReader
+public class StopsReader extends BaseReader<Stops>
 {
 
 	private CSVReader csvReader;
 
-	private int idxId;
-	private int idxName;
-	private int idxLon;
-	private int idxLat;
-	private int idxParentStation;
-
 	public StopsReader(Reader reader) throws IOException
 	{
+		super(Stops.class);
+
 		csvReader = Util.defaultCsvReader(reader);
 
 		String[] head = csvReader.readNext();
-
-		idxId = Util.getIndex(head, "stop_id");
-		idxName = Util.getIndex(head, "stop_name");
-		idxLon = Util.getIndex(head, "stop_lon");
-		idxLat = Util.getIndex(head, "stop_lat");
-		idxParentStation = Util.getIndex(head, "parent_station");
+		initIndexes(head);
 	}
 
 	public List<Stop> readAll() throws IOException
@@ -59,23 +51,51 @@ public class StopsReader
 			if (parts == null) {
 				break;
 			}
-			String id = parts[idxId];
-			String name = parts[idxName];
-			String lon = parts[idxLon];
-			String lat = parts[idxLat];
-			Stop stop = new Stop(id, name, lat, lon);
-
-			if (idxParentStation >= 0) {
-				String parentStation = parts[idxParentStation];
-				stop.setParentStation(parentStation);
-			}
-
+			Stop stop = parse(parts);
 			stops.add(stop);
 		}
 
 		csvReader.close();
 
 		return stops;
+	}
+
+	private Stop parse(String[] parts)
+	{
+		String id = parts[idx.get(Stops.ID)];
+		String name = parts[idx.get(Stops.NAME)];
+		String lat = parts[idx.get(Stops.LAT)];
+		String lon = parts[idx.get(Stops.LON)];
+
+		Stop stop = new Stop(id, name, lat, lon);
+
+		if (hasField(Stops.CODE)) {
+			stop.setCode(parts[idx.get(Stops.CODE)]);
+		}
+		if (hasField(Stops.DESC)) {
+			stop.setDesc(parts[idx.get(Stops.DESC)]);
+		}
+		if (hasField(Stops.ZONE_ID)) {
+			stop.setZoneId(parts[idx.get(Stops.ZONE_ID)]);
+		}
+		if (hasField(Stops.URL)) {
+			stop.setUrl(parts[idx.get(Stops.URL)]);
+		}
+		if (hasField(Stops.LOCATION_TYPE)) {
+			stop.setLocationType(parts[idx.get(Stops.LOCATION_TYPE)]);
+		}
+		if (hasField(Stops.PARENT_STATION)) {
+			stop.setParentStation(parts[idx.get(Stops.PARENT_STATION)]);
+		}
+		if (hasField(Stops.TIMEZONE)) {
+			stop.setTimezone(parts[idx.get(Stops.TIMEZONE)]);
+		}
+		if (hasField(Stops.WHEELCHAIR_BOARDING)) {
+			stop.setWheelchairBoarding(
+					parts[idx.get(Stops.WHEELCHAIR_BOARDING)]);
+		}
+
+		return stop;
 	}
 
 }
