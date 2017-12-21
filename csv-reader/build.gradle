@@ -5,6 +5,7 @@ if (project.hasProperty("topobyte")) {
 
 dependencies {
     compile project(':gtfs4j-core')
+    compile project(':gtfs4j-csv-core')
 
     compile 'net.sf.opencsv:opencsv:2.3'
 

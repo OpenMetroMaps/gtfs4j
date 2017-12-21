@@ -1,4 +1,5 @@
-include 'core', 'csv-reader', 'cli'
+include 'core', 'csv-core', 'csv-reader', 'cli'
 project(':core').name = 'gtfs4j-core'
+project(':csv-core').name = 'gtfs4j-csv-core'
 project(':csv-reader').name = 'gtfs4j-csv-reader'
 project(':cli').name = 'gtfs4j-cli'

@@ -21,6 +21,7 @@ subprojects {
 }
 
 configure([project(':gtfs4j-core'),
+        project(':gtfs4j-csv-core'),
         project(':gtfs4j-csv-reader')]) {
 
     task sourcesJar(type: Jar, dependsOn: classes) {
