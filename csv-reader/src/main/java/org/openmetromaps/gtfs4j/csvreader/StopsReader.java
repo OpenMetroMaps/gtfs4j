@@ -35,6 +35,7 @@ public class StopsReader
 	private int idxName;
 	private int idxLon;
 	private int idxLat;
+	private int idxParentStation;
 
 	public StopsReader(Reader reader) throws IOException
 	{
@@ -46,6 +47,7 @@ public class StopsReader
 		idxName = Util.getIndex(head, "stop_name");
 		idxLon = Util.getIndex(head, "stop_lon");
 		idxLat = Util.getIndex(head, "stop_lat");
+		idxParentStation = Util.getIndex(head, "parent_station");
 	}
 
 	public List<Stop> readAll() throws IOException
@@ -61,7 +63,14 @@ public class StopsReader
 			String name = parts[idxName];
 			String lon = parts[idxLon];
 			String lat = parts[idxLat];
-			stops.add(new Stop(id, name, lat, lon));
+			Stop stop = new Stop(id, name, lat, lon);
+
+			if (idxParentStation >= 0) {
+				String parentStation = parts[idxParentStation];
+				stop.setParentStation(parentStation);
+			}
+
+			stops.add(stop);
 		}
 
 		csvReader.close();
