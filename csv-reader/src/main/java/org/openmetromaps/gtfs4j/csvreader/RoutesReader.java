@@ -39,7 +39,7 @@ public class RoutesReader
 
 	public RoutesReader(Reader reader) throws IOException
 	{
-		csvReader = new CSVReader(reader, ',', '"');
+		csvReader = Util.defaultCsvReader(reader);
 
 		String[] head = csvReader.readNext();
 

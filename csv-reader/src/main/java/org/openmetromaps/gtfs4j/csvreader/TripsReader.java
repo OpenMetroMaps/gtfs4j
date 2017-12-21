@@ -38,7 +38,7 @@ public class TripsReader
 
 	public TripsReader(Reader reader) throws IOException
 	{
-		csvReader = new CSVReader(reader, ',', '"');
+		csvReader = Util.defaultCsvReader(reader);
 
 		String[] head = csvReader.readNext();
 

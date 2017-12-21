@@ -17,6 +17,10 @@
 
 package org.openmetromaps.gtfs4j;
 
+import java.io.Reader;
+
+import au.com.bytecode.opencsv.CSVReader;
+
 public class Util
 {
 
@@ -28,6 +32,11 @@ public class Util
 			}
 		}
 		return -1;
+	}
+
+	public static CSVReader defaultCsvReader(Reader reader)
+	{
+		return new CSVReader(reader, ',', '"');
 	}
 
 }
