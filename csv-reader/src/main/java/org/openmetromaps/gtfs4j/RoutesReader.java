@@ -15,12 +15,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with gtfs4j. If not, see <http://www.gnu.org/licenses/>.
 
-package org.openmetromaps.gtfs;
+package org.openmetromaps.gtfs4j;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.openmetromaps.gtfs4j.Route;
 
 import au.com.bytecode.opencsv.CSVReader;
 

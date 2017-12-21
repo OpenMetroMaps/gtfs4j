@@ -15,19 +15,22 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with gtfs4j. If not, see <http://www.gnu.org/licenses/>.
 
-package org.openmetromaps.gtfs;
+package org.openmetromaps.gtfs4j;
 
-public class Route
+public class Stop
 {
 
 	private String id;
-	private String shortName;
-	private String longName;
+	private String name;
+	private String lat;
+	private String lon;
 
-	public Route(String id, String shortName, String longName)
+	public Stop(String id, String name, String lat, String lon)
 	{
 		this.id = id;
-		this.shortName = shortName;
+		this.name = name;
+		this.lat = lat;
+		this.lon = lon;
 	}
 
 	public String getId()
@@ -40,24 +43,34 @@ public class Route
 		this.id = id;
 	}
 
-	public String getShortName()
+	public String getName()
 	{
-		return shortName;
+		return name;
 	}
 
-	public void setShortName(String shortName)
+	public void setName(String name)
 	{
-		this.shortName = shortName;
+		this.name = name;
 	}
 
-	public String getLongName()
+	public String getLat()
 	{
-		return longName;
+		return lat;
 	}
 
-	public void setLongName(String longName)
+	public void setLat(String lat)
 	{
-		this.longName = longName;
+		this.lat = lat;
+	}
+
+	public String getLon()
+	{
+		return lon;
+	}
+
+	public void setLon(String lon)
+	{
+		this.lon = lon;
 	}
 
 }

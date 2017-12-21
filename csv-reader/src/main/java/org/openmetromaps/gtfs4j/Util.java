@@ -15,62 +15,19 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with gtfs4j. If not, see <http://www.gnu.org/licenses/>.
 
-package org.openmetromaps.gtfs;
+package org.openmetromaps.gtfs4j;
 
-public class Stop
+public class Util
 {
 
-	private String id;
-	private String name;
-	private String lat;
-	private String lon;
-
-	public Stop(String id, String name, String lat, String lon)
+	public static int getIndex(String[] array, String name)
 	{
-		this.id = id;
-		this.name = name;
-		this.lat = lat;
-		this.lon = lon;
-	}
-
-	public String getId()
-	{
-		return id;
-	}
-
-	public void setId(String id)
-	{
-		this.id = id;
-	}
-
-	public String getName()
-	{
-		return name;
-	}
-
-	public void setName(String name)
-	{
-		this.name = name;
-	}
-
-	public String getLat()
-	{
-		return lat;
-	}
-
-	public void setLat(String lat)
-	{
-		this.lat = lat;
-	}
-
-	public String getLon()
-	{
-		return lon;
-	}
-
-	public void setLon(String lon)
-	{
-		this.lon = lon;
+		for (int i = 0; i < array.length; i++) {
+			if (array[i].equals(name)) {
+				return i;
+			}
+		}
+		return -1;
 	}
 
 }
