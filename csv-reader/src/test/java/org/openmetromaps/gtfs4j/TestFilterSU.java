@@ -65,17 +65,21 @@ public class TestFilterSU
 		System.out.println(String.format("number of trips: %d / %d",
 				tripIds.size(), trips.size()));
 
-		int n = 0;
+		Set<String> stopIds = new HashSet<>();
+		int numStopTimes = 0;
 
 		List<StopTime> stopTimes = Test.readStopTimes();
 		for (StopTime stopTime : stopTimes) {
 			if (tripIds.contains(stopTime.getTripId())) {
-				n++;
+				numStopTimes++;
+				stopIds.add(stopTime.getStopId());
 			}
 		}
 
-		System.out.println(String.format("number of stop times: %d / %d", n,
-				stopTimes.size()));
+		System.out.println(String.format("number of stop times: %d / %d",
+				numStopTimes, stopTimes.size()));
+		System.out
+				.println(String.format("number of stops: %d", stopIds.size()));
 	}
 
 }
