@@ -32,7 +32,7 @@ public class RoutesReader
 
 	private CSVReader csvReader;
 
-	private int idxRouteId;
+	private int idxId;
 	private int idxShortName;
 	private int idxLongName;
 	private int idxType;
@@ -43,7 +43,7 @@ public class RoutesReader
 
 		String[] head = csvReader.readNext();
 
-		idxRouteId = Util.getIndex(head, "route_id");
+		idxId = Util.getIndex(head, "route_id");
 		idxShortName = Util.getIndex(head, "route_short_name");
 		idxLongName = Util.getIndex(head, "route_long_name");
 		idxType = Util.getIndex(head, "route_type");
@@ -58,7 +58,7 @@ public class RoutesReader
 			if (parts == null) {
 				break;
 			}
-			String id = parts[idxRouteId];
+			String id = parts[idxId];
 			String shortName = parts[idxShortName];
 			String longName = parts[idxLongName];
 			String type = parts[idxType];

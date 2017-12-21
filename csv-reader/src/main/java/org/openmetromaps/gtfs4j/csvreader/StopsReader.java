@@ -32,10 +32,10 @@ public class StopsReader
 
 	private CSVReader csvReader;
 
-	private int idxStopId;
-	private int idxStopName;
-	private int idxStopLon;
-	private int idxStopLat;
+	private int idxId;
+	private int idxName;
+	private int idxLon;
+	private int idxLat;
 
 	public StopsReader(Reader reader) throws IOException
 	{
@@ -43,10 +43,10 @@ public class StopsReader
 
 		String[] head = csvReader.readNext();
 
-		idxStopId = Util.getIndex(head, "stop_id");
-		idxStopName = Util.getIndex(head, "stop_name");
-		idxStopLon = Util.getIndex(head, "stop_lon");
-		idxStopLat = Util.getIndex(head, "stop_lat");
+		idxId = Util.getIndex(head, "stop_id");
+		idxName = Util.getIndex(head, "stop_name");
+		idxLon = Util.getIndex(head, "stop_lon");
+		idxLat = Util.getIndex(head, "stop_lat");
 	}
 
 	public List<Stop> readAll() throws IOException
@@ -58,10 +58,10 @@ public class StopsReader
 			if (parts == null) {
 				break;
 			}
-			String id = parts[idxStopId];
-			String name = parts[idxStopName];
-			String lon = parts[idxStopLon];
-			String lat = parts[idxStopLat];
+			String id = parts[idxId];
+			String name = parts[idxName];
+			String lon = parts[idxLon];
+			String lat = parts[idxLat];
 			stops.add(new Stop(id, name, lat, lon));
 		}
 
