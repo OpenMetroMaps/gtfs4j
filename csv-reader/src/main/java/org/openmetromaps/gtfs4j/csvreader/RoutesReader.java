@@ -20,37 +20,27 @@ package org.openmetromaps.gtfs4j.csvreader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 
 import org.openmetromaps.gtfs4j.csv.Routes;
 import org.openmetromaps.gtfs4j.model.Route;
 
 import au.com.bytecode.opencsv.CSVReader;
 
-public class RoutesReader
+public class RoutesReader extends BaseReader<Routes>
 {
 
 	private CSVReader csvReader;
 
-	private Map<Routes, Integer> idx = new EnumMap<>(Routes.class);
-
 	public RoutesReader(Reader reader) throws IOException
 	{
+		super(Routes.class);
+
 		csvReader = Util.defaultCsvReader(reader);
 
 		String[] head = csvReader.readNext();
 
-		for (Routes field : Routes.values()) {
-			int index = Util.getIndex(head, field.getCsvName());
-			idx.put(field, index);
-		}
-	}
-
-	private boolean hasField(Routes field)
-	{
-		return idx.get(field) >= 0;
+		initIndexes(head);
 	}
 
 	public List<Route> readAll() throws IOException
