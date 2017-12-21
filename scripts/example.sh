@@ -2,6 +2,6 @@
 
 DIR=$(dirname $0)
 CMD="$DIR/gtfs4j.sh"
-CLASS="de.topobyte.Test"
+CLASS="org.openmetromaps.gtfs4j.cli.Test"
 
 exec "$CMD" "$CLASS" "$@"
