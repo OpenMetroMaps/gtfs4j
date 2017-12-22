@@ -26,9 +26,9 @@ add our Maven server to your repository list:
 Afterwards, declare some dependencies:
 
     dependencies {
-        compile 'org.openmetromaps:gtfs-csv-reader:0.0.1'
-        compile 'org.openmetromaps:gtfs-csv-writer:0.0.1'
-        compile 'org.openmetromaps:gtfs-csv-util:0.0.1'
+        compile 'org.openmetromaps:gtfs4j-csv-reader:0.0.1'
+        compile 'org.openmetromaps:gtfs4j-csv-writer:0.0.1'
+        compile 'org.openmetromaps:gtfs4j-csv-util:0.0.1'
     }
 
 # CLI
