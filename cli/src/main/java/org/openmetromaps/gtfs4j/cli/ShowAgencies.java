@@ -41,11 +41,11 @@ public class ShowAgencies
 	{
 		ZipFile zip = new ZipFile(pathInput.toFile());
 		InputStreamReader isr = CliUtil.reader(zip, GtfsFiles.AGENCY);
-		AgencyReader agencyReader = new AgencyReader(isr);
-		List<Agency> agencies = agencyReader.readAll();
+		AgencyReader reader = new AgencyReader(isr);
+		List<Agency> data = reader.readAll();
 
-		for (Agency agency : agencies) {
-			System.out.println(String.format("%s", agency.getName()));
+		for (Agency object : data) {
+			System.out.println(String.format("%s", object.getName()));
 		}
 	}
 
