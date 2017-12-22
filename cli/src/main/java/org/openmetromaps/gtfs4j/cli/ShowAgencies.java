@@ -45,7 +45,8 @@ public class ShowAgencies
 		List<Agency> data = reader.readAll();
 
 		for (Agency object : data) {
-			System.out.println(String.format("%s", object.getName()));
+			System.out.println(
+					String.format("%s: %s", object.getId(), object.getName()));
 		}
 	}
 
