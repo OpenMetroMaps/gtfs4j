@@ -41,16 +41,6 @@ public class AgencyWriter extends BaseWriter<Agency, Agencies>
 	}
 
 	@Override
-	public void write(Agency object)
-	{
-		List<String> values = new ArrayList<>();
-		for (Agencies field : fields) {
-			String value = get(object, field);
-			values.add(value);
-		}
-		csvWriter.writeNext(values.toArray(new String[values.size()]));
-	}
-
 	public String get(Agency object, Agencies field)
 	{
 		switch (field) {

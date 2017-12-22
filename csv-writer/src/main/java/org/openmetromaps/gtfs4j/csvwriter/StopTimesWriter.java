@@ -34,9 +34,32 @@ public class StopTimesWriter extends BaseWriter<StopTime, StopTimes>
 	}
 
 	@Override
-	public void write(StopTime object)
+	public String get(StopTime object, StopTimes field)
 	{
-		// TODO: implement
+		switch (field) {
+		case ARRVIAL_TIME:
+			return object.getArrivalTime();
+		case DEPARTURE_TIME:
+			return object.getDepartureTime();
+		case DROP_OFF_TYPE:
+			return object.getDropOffType();
+		case PICKUP_TYPE:
+			return object.getPickupType();
+		case SHAPE_DIST_TRAVELED:
+			return object.getShapeDistTraveled();
+		case STOP_HEADSIGN:
+			return object.getStopHeadsign();
+		case STOP_ID:
+			return object.getStopId();
+		case STOP_SEQUENCE:
+			return object.getStopSequence();
+		case TIMEPOINT:
+			return object.getTimepoint();
+		case TRIP_ID:
+			return object.getTripId();
+		default:
+			return null;
+		}
 	}
 
 }

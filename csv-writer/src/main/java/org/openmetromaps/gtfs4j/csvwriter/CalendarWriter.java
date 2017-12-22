@@ -34,9 +34,32 @@ public class CalendarWriter extends BaseWriter<Calendar, Calendars>
 	}
 
 	@Override
-	public void write(Calendar object)
+	public String get(Calendar object, Calendars field)
 	{
-		// TODO: implement
+		switch (field) {
+		case END_DATE:
+			return object.getEndDate();
+		case FRIDAY:
+			return object.getFriday();
+		case MONDAY:
+			return object.getMonday();
+		case SATURDAY:
+			return object.getSaturday();
+		case SERVICE_ID:
+			return object.getServiceId();
+		case START_DATE:
+			return object.getStartDate();
+		case SUNDAY:
+			return object.getSunday();
+		case THURSDAY:
+			return object.getThursday();
+		case TUESDAY:
+			return object.getTuesday();
+		case WEDNESDAY:
+			return object.getWednesday();
+		default:
+			return null;
+		}
 	}
 
 }

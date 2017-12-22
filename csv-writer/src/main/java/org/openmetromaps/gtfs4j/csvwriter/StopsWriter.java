@@ -33,9 +33,36 @@ public class StopsWriter extends BaseWriter<Stop, Stops>
 	}
 
 	@Override
-	public void write(Stop object)
+	public String get(Stop object, Stops field)
 	{
-		// TODO: implement
+		switch (field) {
+		case CODE:
+			return object.getCode();
+		case DESC:
+			return object.getDesc();
+		case ID:
+			return object.getId();
+		case LAT:
+			return object.getLat();
+		case LOCATION_TYPE:
+			return object.getLocationType();
+		case LON:
+			return object.getLon();
+		case NAME:
+			return object.getName();
+		case PARENT_STATION:
+			return object.getParentStation();
+		case TIMEZONE:
+			return object.getTimezone();
+		case URL:
+			return object.getUrl();
+		case WHEELCHAIR_BOARDING:
+			return object.getWheelchairBoarding();
+		case ZONE_ID:
+			return object.getZoneId();
+		default:
+			return null;
+		}
 	}
 
 }

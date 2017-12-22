@@ -35,14 +35,30 @@ public abstract class BaseWriter<S, T extends Enum<T> & Field>
 
 	protected CSVWriter csvWriter;
 
+	protected String[] values;
+
 	public BaseWriter(Writer writer, Class<T> clazz, List<T> fields)
 	{
 		this.clazz = clazz;
 		this.fields = fields;
 		csvWriter = new CSVWriter(writer);
+		values = new String[fields.size()];
 	}
 
-	public abstract void write(S object);
+	public abstract String get(S object, T field);
+
+	public void write(S object)
+	{
+		writeDefault(object);
+	}
+
+	public void writeDefault(S object)
+	{
+		for (int i = 0; i < fields.size(); i++) {
+			values[i] = get(object, fields.get(i));
+		}
+		csvWriter.writeNext(values);
+	}
 
 	@Override
 	public void close() throws IOException
