@@ -17,6 +17,10 @@ Use the `show-info` task to display some basic data about a GTFS zip file:
 
     ./scripts/gtfs4j-cli show-info --input /tmp/gtfs/test.zip
 
+Use the `show-agencies` task to display information about agencies:
+
+    ./scripts/gtfs4j-cli show-agencies --input /tmp/gtfs/test.zip
+
 Use the `filter-routes` task to extract a subset from an existing data file
 that will contain all data belonging to some selected routes.
 Routes can be matched using regular expressions:
