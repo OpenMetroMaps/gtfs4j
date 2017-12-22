@@ -15,42 +15,25 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with gtfs4j. If not, see <http://www.gnu.org/licenses/>.
 
-package org.openmetromaps.gtfs4j.csv;
+package org.openmetromaps.gtfs4j;
 
-public enum Calendar
-		implements
-		Field {
+import java.io.IOException;
+import java.util.List;
 
-	SERVICE_ID("service_id", true),
-	MONDAY("monday", true),
-	TUESDAY("tuesday", true),
-	WEDNESDAY("wednesday", true),
-	THURSDAY("thursday", true),
-	FRIDAY("friday", true),
-	SATURDAY("saturday", true),
-	SUNDAY("sunday", true),
-	START_DATE("start_date", true),
-	END_DATE("end_date", true);
+import org.openmetromaps.gtfs4j.model.Calendar;
 
-	private String csvName;
-	private boolean required;
+public class TestReadCalendar
+{
 
-	Calendar(String csvName, boolean required)
+	public static void main(String[] args) throws IOException
 	{
-		this.csvName = csvName;
-		this.required = required;
-	}
+		List<Calendar> calendars = Test.readCalendar();
 
-	@Override
-	public String getCsvName()
-	{
-		return csvName;
-	}
-
-	@Override
-	public boolean isRequired()
-	{
-		return required;
+		for (Calendar calendar : calendars) {
+			System.out.println(
+					String.format("%s: %s, %s", calendar.getServiceId(),
+							calendar.getStartDate(), calendar.getEndDate()));
+		}
 	}
 
 }

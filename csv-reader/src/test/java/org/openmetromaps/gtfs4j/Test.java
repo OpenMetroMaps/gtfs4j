@@ -27,11 +27,13 @@ import java.util.List;
 
 import org.openmetromaps.gtfs4j.csv.GtfsFiles;
 import org.openmetromaps.gtfs4j.csvreader.AgencyReader;
+import org.openmetromaps.gtfs4j.csvreader.CalendarReader;
 import org.openmetromaps.gtfs4j.csvreader.RoutesReader;
 import org.openmetromaps.gtfs4j.csvreader.StopTimesReader;
 import org.openmetromaps.gtfs4j.csvreader.StopsReader;
 import org.openmetromaps.gtfs4j.csvreader.TripsReader;
 import org.openmetromaps.gtfs4j.model.Agency;
+import org.openmetromaps.gtfs4j.model.Calendar;
 import org.openmetromaps.gtfs4j.model.Route;
 import org.openmetromaps.gtfs4j.model.Stop;
 import org.openmetromaps.gtfs4j.model.StopTime;
@@ -98,6 +100,17 @@ public class Test
 
 		StopTimesReader reader = new StopTimesReader(br);
 		List<StopTime> list = reader.readAll();
+		br.close();
+		return list;
+	}
+
+	public static List<Calendar> readCalendar() throws IOException
+	{
+		Path path = Test.path.resolve(GtfsFiles.NAME_CALENDAR);
+		BufferedReader br = reader(path);
+
+		CalendarReader reader = new CalendarReader(br);
+		List<Calendar> list = reader.readAll();
 		br.close();
 		return list;
 	}
