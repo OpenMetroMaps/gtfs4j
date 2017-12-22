@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import java.util.zip.ZipOutputStream;
 
 import org.openmetromaps.gtfs4j.csv.GtfsFiles;
 
@@ -35,6 +36,17 @@ public class CliUtil
 		ZipEntry entry = zip.getEntry(file.getFilename());
 		InputStream is = zip.getInputStream(entry);
 		return new InputStreamReader(is, StandardCharsets.UTF_8);
+	}
+
+	static void putEntry(ZipOutputStream zipOutput, GtfsFiles file)
+			throws IOException
+	{
+		zipOutput.putNextEntry(new ZipEntry(file.getFilename()));
+	}
+
+	static void closeEntry(ZipOutputStream zipOutput) throws IOException
+	{
+		zipOutput.closeEntry();
 	}
 
 }
