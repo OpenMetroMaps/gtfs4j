@@ -47,10 +47,7 @@ public class ShowStops
 		for (Stop object : data) {
 			String name = object.getName();
 
-			StringBuilder line = new StringBuilder();
-			line.append(name);
-
-			System.out.println(line.toString());
+			System.out.println(name);
 		}
 	}
 
