@@ -26,6 +26,8 @@ import java.util.List;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 
+import com.google.common.base.Splitter;
+
 import de.topobyte.utilities.apache.commons.cli.OptionHelper;
 import de.topobyte.utilities.apache.commons.cli.commands.args.CommonsCliArguments;
 import de.topobyte.utilities.apache.commons.cli.commands.options.CommonsCliExeOptions;
@@ -37,6 +39,7 @@ public class RunFilterRoutes
 
 	private static final String OPTION_INPUT = "input";
 	private static final String OPTION_OUTPUT = "output";
+	private static final String OPTION_AGENCIES = "agencies";
 	private static final String OPTION_PATTERN = "pattern";
 
 	public static ExeOptionsFactory OPTIONS_FACTORY = new ExeOptionsFactory() {
@@ -50,6 +53,8 @@ public class RunFilterRoutes
 					"a source GTFS zip file");
 			OptionHelper.addL(options, OPTION_OUTPUT, true, true,
 					"file", "a destination GTFS zip file");
+			OptionHelper.addL(options, OPTION_AGENCIES, true, false,
+					"id list", "a comma-separated list of agency ids");
 			OptionHelper.addL(options, OPTION_PATTERN, true, false,
 					"regular expression", "a regular expression for filtering routes by name");
 			// @formatter:on
@@ -69,13 +74,23 @@ public class RunFilterRoutes
 		String argOutput = line.getOptionValue(OPTION_OUTPUT);
 		Path pathOutput = Paths.get(argOutput);
 
+		List<String> agencyIds = new ArrayList<>();
+		if (line.hasOption(OPTION_AGENCIES)) {
+			Splitter splitter = Splitter.on(",").trimResults()
+					.omitEmptyStrings();
+			for (String values : line.getOptionValues(OPTION_AGENCIES)) {
+				agencyIds.addAll(splitter.splitToList(values));
+			}
+		}
+
 		List<String> patterns = new ArrayList<>();
 		if (line.hasOption(OPTION_PATTERN)) {
 			patterns.addAll(
 					Arrays.asList(line.getOptionValues(OPTION_PATTERN)));
 		}
 
-		FilterRoutes task = new FilterRoutes(pathInput, pathOutput, patterns);
+		FilterRoutes task = new FilterRoutes(pathInput, pathOutput, agencyIds,
+				patterns);
 		task.execute();
 	}
 

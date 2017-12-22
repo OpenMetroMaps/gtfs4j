@@ -26,12 +26,14 @@ public class TestFilterRoutes
 
 	public static void main(String[] args) throws IOException
 	{
+		List<String> agencyIds = new ArrayList<>();
+
 		List<String> patterns = new ArrayList<>();
 		patterns.add("S[0-9]+");
 		patterns.add("U[0-9]+");
 
 		FilterRoutes task = new FilterRoutes(TestPaths.pathInput,
-				TestPaths.pathOutput, patterns);
+				TestPaths.pathOutput, agencyIds, patterns);
 		task.execute();
 	}
 

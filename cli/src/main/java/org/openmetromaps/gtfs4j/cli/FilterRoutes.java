@@ -43,13 +43,20 @@ public class FilterRoutes
 
 	private Path pathInput;
 	private Path pathOutput;
+	private List<String> agencyIds;
 	private List<String> patternsSpecs;
 
-	public FilterRoutes(Path pathInput, Path pathOutput, List<String> patterns)
+	private Set<String> agencyIdSet = new HashSet<>();
+
+	public FilterRoutes(Path pathInput, Path pathOutput, List<String> agencyIds,
+			List<String> patterns)
 	{
 		this.pathInput = pathInput;
 		this.pathOutput = pathOutput;
+		this.agencyIds = agencyIds;
 		this.patternsSpecs = patterns;
+
+		agencyIdSet.addAll(agencyIds);
 	}
 
 	private List<Pattern> patterns = new ArrayList<>();
@@ -66,6 +73,13 @@ public class FilterRoutes
 	{
 		System.out.println("input: " + pathInput);
 		System.out.println("output: " + pathOutput);
+
+		if (agencyIds.isEmpty()) {
+			System.out.println("no agencies specified");
+		}
+		for (String agencyId : agencyIds) {
+			System.out.println("agency id: " + agencyId);
+		}
 
 		if (patternsSpecs.isEmpty()) {
 			System.out.println("no patterns specified");
@@ -114,25 +128,42 @@ public class FilterRoutes
 		for (Route route : routes) {
 			String shortName = route.getShortName();
 
-			boolean use = false;
-			for (Pattern pattern : patterns) {
-				if (pattern.matcher(shortName).matches()) {
-					use = true;
-					break;
-				}
-			}
-
-			if (!use) {
+			if (patterns.isEmpty() && agencyIds.isEmpty()) {
+				use(route);
 				continue;
 			}
 
-			System.out
-					.println(String.format("%s: %s", route.getId(), shortName));
-			routeIds.add(route.getId());
+			boolean use = true;
+
+			if (!agencyIds.isEmpty()) {
+				use &= agencyIdSet.contains(route.getAgencyId());
+			}
+
+			if (!patterns.isEmpty()) {
+				boolean somePatternFits = false;
+				for (Pattern pattern : patterns) {
+					if (pattern.matcher(shortName).matches()) {
+						somePatternFits = true;
+						break;
+					}
+				}
+				use &= somePatternFits;
+			}
+
+			if (use) {
+				use(route);
+			}
 		}
 
 		System.out.println(String.format("number of routes: %d / %d",
 				routeIds.size(), routes.size()));
+	}
+
+	private void use(Route route)
+	{
+		System.out.println(
+				String.format("%s: %s", route.getId(), route.getShortName()));
+		routeIds.add(route.getId());
 	}
 
 	private void filterTrips() throws IOException
