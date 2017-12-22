@@ -38,6 +38,8 @@ public class Gtfs4jCli
 					RunShowInfo.class);
 			options.addCommand("show-agencies", RunShowAgencies.OPTIONS_FACTORY,
 					RunShowAgencies.class);
+			options.addCommand("show-routes", RunShowRoutes.OPTIONS_FACTORY,
+					RunShowRoutes.class);
 			options.addCommand("filter-routes", RunFilterRoutes.OPTIONS_FACTORY,
 					RunFilterRoutes.class);
 			return options;
