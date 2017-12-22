@@ -152,6 +152,7 @@ public class FilterRoutes
 		InputStreamReader isr = reader(GtfsFiles.ROUTES);
 		RoutesReader reader = new RoutesReader(isr);
 		List<Route> routes = reader.readAll();
+		reader.close();
 
 		putEntry(GtfsFiles.ROUTES);
 		OutputStreamWriter osw = new OutputStreamWriter(zipOutput);

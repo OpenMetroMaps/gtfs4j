@@ -57,6 +57,7 @@ public class ShowRoutes
 		InputStreamReader isr = CliUtil.reader(zip, GtfsFiles.ROUTES);
 		RoutesReader reader = new RoutesReader(isr);
 		List<Route> data = reader.readAll();
+		reader.close();
 
 		zip.close();
 

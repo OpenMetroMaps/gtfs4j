@@ -43,6 +43,7 @@ public class ShowStations
 		InputStreamReader isr = CliUtil.reader(zip, GtfsFiles.STOPS);
 		StopsReader reader = new StopsReader(isr);
 		List<Stop> data = reader.readAll();
+		reader.close();
 
 		zip.close();
 

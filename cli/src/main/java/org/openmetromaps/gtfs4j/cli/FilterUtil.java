@@ -51,6 +51,7 @@ public class FilterUtil
 		InputStreamReader isr = CliUtil.reader(zipInput, GtfsFiles.AGENCY);
 		AgencyReader reader = new AgencyReader(isr);
 		List<Agency> data = reader.readAll();
+		reader.close();
 
 		CliUtil.putEntry(zipOutput, GtfsFiles.AGENCY);
 		OutputStreamWriter osw = new OutputStreamWriter(zipOutput);
@@ -80,6 +81,7 @@ public class FilterUtil
 		InputStreamReader isr = CliUtil.reader(zipInput, GtfsFiles.TRIPS);
 		TripsReader reader = new TripsReader(isr);
 		List<Trip> data = reader.readAll();
+		reader.close();
 
 		CliUtil.putEntry(zipOutput, GtfsFiles.TRIPS);
 		OutputStreamWriter osw = new OutputStreamWriter(zipOutput);
@@ -108,6 +110,7 @@ public class FilterUtil
 		InputStreamReader isr = CliUtil.reader(zipInput, GtfsFiles.CALENDAR);
 		CalendarReader reader = new CalendarReader(isr);
 		List<Calendar> data = reader.readAll();
+		reader.close();
 
 		CliUtil.putEntry(zipOutput, GtfsFiles.CALENDAR);
 		OutputStreamWriter osw = new OutputStreamWriter(zipOutput);
@@ -137,6 +140,7 @@ public class FilterUtil
 		InputStreamReader isr = CliUtil.reader(zipInput, GtfsFiles.STOP_TIMES);
 		StopTimesReader reader = new StopTimesReader(isr);
 		List<StopTime> data = reader.readAll();
+		reader.close();
 
 		CliUtil.putEntry(zipOutput, GtfsFiles.STOP_TIMES);
 		OutputStreamWriter osw = new OutputStreamWriter(zipOutput);
@@ -169,6 +173,7 @@ public class FilterUtil
 		InputStreamReader isr = CliUtil.reader(zipInput, GtfsFiles.STOPS);
 		StopsReader reader = new StopsReader(isr);
 		List<Stop> data = reader.readAll();
+		reader.close();
 
 		for (Stop stop : data) {
 			if (stopIds.contains(stop.getId())) {
@@ -190,6 +195,7 @@ public class FilterUtil
 		InputStreamReader isr = CliUtil.reader(zipInput, GtfsFiles.STOPS);
 		StopsReader reader = new StopsReader(isr);
 		List<Stop> data = reader.readAll();
+		reader.close();
 
 		CliUtil.putEntry(zipOutput, GtfsFiles.STOPS);
 		OutputStreamWriter osw = new OutputStreamWriter(zipOutput);

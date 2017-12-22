@@ -43,6 +43,7 @@ public class ShowAgencies
 		InputStreamReader isr = CliUtil.reader(zip, GtfsFiles.AGENCY);
 		AgencyReader reader = new AgencyReader(isr);
 		List<Agency> data = reader.readAll();
+		reader.close();
 
 		zip.close();
 

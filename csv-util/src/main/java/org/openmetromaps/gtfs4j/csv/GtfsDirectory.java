@@ -118,7 +118,7 @@ public class GtfsDirectory
 
 		AgencyReader reader = new AgencyReader(br);
 		List<Agency> list = reader.readAll();
-		br.close();
+		reader.close();
 		return list;
 	}
 
@@ -129,7 +129,7 @@ public class GtfsDirectory
 
 		StopsReader reader = new StopsReader(br);
 		List<Stop> list = reader.readAll();
-		br.close();
+		reader.close();
 		return list;
 	}
 
@@ -140,7 +140,7 @@ public class GtfsDirectory
 
 		RoutesReader reader = new RoutesReader(br);
 		List<Route> list = reader.readAll();
-		br.close();
+		reader.close();
 		return list;
 	}
 
@@ -151,7 +151,7 @@ public class GtfsDirectory
 
 		TripsReader reader = new TripsReader(br);
 		List<Trip> list = reader.readAll();
-		br.close();
+		reader.close();
 		return list;
 	}
 
@@ -162,7 +162,7 @@ public class GtfsDirectory
 
 		StopTimesReader reader = new StopTimesReader(br);
 		List<StopTime> list = reader.readAll();
-		br.close();
+		reader.close();
 		return list;
 	}
 
@@ -173,7 +173,7 @@ public class GtfsDirectory
 
 		CalendarReader reader = new CalendarReader(br);
 		List<Calendar> list = reader.readAll();
-		br.close();
+		reader.close();
 		return list;
 	}
 
