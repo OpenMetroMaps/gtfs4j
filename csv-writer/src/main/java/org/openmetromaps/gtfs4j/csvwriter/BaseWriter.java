@@ -17,6 +17,9 @@
 
 package org.openmetromaps.gtfs4j.csvwriter;
 
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -25,6 +28,7 @@ import org.openmetromaps.gtfs4j.csv.Field;
 import au.com.bytecode.opencsv.CSVWriter;
 
 public abstract class BaseWriter<S, T extends Enum<T> & Field>
+		implements Closeable
 {
 
 	protected Map<T, Integer> idx;
@@ -32,10 +36,11 @@ public abstract class BaseWriter<S, T extends Enum<T> & Field>
 
 	protected CSVWriter csvWriter;
 
-	public BaseWriter(Class<T> clazz)
+	public BaseWriter(Writer writer, Class<T> clazz)
 	{
 		this.clazz = clazz;
 		idx = new EnumMap<>(clazz);
+		csvWriter = new CSVWriter(writer);
 	}
 
 	protected boolean hasField(T field)
@@ -44,5 +49,11 @@ public abstract class BaseWriter<S, T extends Enum<T> & Field>
 	}
 
 	public abstract void write(S object);
+
+	@Override
+	public void close() throws IOException
+	{
+		csvWriter.close();
+	}
 
 }

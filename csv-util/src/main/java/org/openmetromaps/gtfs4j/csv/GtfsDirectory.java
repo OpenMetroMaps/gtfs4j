@@ -24,7 +24,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-import org.openmetromaps.gtfs4j.csv.GtfsFiles;
 import org.openmetromaps.gtfs4j.csvreader.AgencyReader;
 import org.openmetromaps.gtfs4j.csvreader.CalendarReader;
 import org.openmetromaps.gtfs4j.csvreader.RoutesReader;
@@ -56,6 +55,15 @@ public class GtfsDirectory
 	private Path path(GtfsFiles gtfsFile)
 	{
 		return path.resolve(gtfsFile.getFilename());
+	}
+
+	public AgencyReader agencyReader() throws IOException
+	{
+		Path path = path(GtfsFiles.AGENCY);
+		BufferedReader br = reader(path);
+
+		AgencyReader reader = new AgencyReader(br);
+		return reader;
 	}
 
 	public List<Agency> readAgency() throws IOException

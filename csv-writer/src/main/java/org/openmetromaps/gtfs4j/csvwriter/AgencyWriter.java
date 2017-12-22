@@ -19,6 +19,8 @@ package org.openmetromaps.gtfs4j.csvwriter;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.openmetromaps.gtfs4j.csv.Agencies;
 import org.openmetromaps.gtfs4j.model.Agency;
@@ -26,15 +28,51 @@ import org.openmetromaps.gtfs4j.model.Agency;
 public class AgencyWriter extends BaseWriter<Agency, Agencies>
 {
 
-	public AgencyWriter(Writer writer) throws IOException
+	public AgencyWriter(Writer writer, Agencies[] fields) throws IOException
 	{
-		super(Agencies.class);
+		super(writer, Agencies.class);
+
+		List<String> values = new ArrayList<>();
+		for (Agencies field : fields) {
+			String name = field.getCsvName();
+			values.add(name);
+		}
+		csvWriter.writeNext(values.toArray(new String[values.size()]));
 	}
 
 	@Override
 	public void write(Agency object)
 	{
-		// TODO: implement
+		List<String> values = new ArrayList<>();
+		for (Agencies field : Agencies.values()) {
+			String value = get(object, field);
+			values.add(value);
+		}
+		csvWriter.writeNext(values.toArray(new String[values.size()]));
+	}
+
+	public String get(Agency object, Agencies field)
+	{
+		switch (field) {
+		case EMAIL:
+			return object.getEmail();
+		case FARE_URL:
+			return object.getFareUrl();
+		case ID:
+			return object.getId();
+		case LANG:
+			return object.getLang();
+		case NAME:
+			return object.getName();
+		case PHONE:
+			return object.getPhone();
+		case TIMEZONE:
+			return object.getTimezone();
+		case URL:
+			return object.getUrl();
+		default:
+			return null;
+		}
 	}
 
 }

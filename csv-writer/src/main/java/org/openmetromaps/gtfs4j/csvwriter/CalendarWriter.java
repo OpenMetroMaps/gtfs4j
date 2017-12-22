@@ -28,7 +28,7 @@ public class CalendarWriter extends BaseWriter<Calendar, Calendars>
 
 	public CalendarWriter(Writer writer) throws IOException
 	{
-		super(Calendars.class);
+		super(writer, Calendars.class);
 	}
 
 	@Override

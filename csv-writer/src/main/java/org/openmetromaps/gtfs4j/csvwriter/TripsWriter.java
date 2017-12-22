@@ -28,7 +28,7 @@ public class TripsWriter extends BaseWriter<Trip, Trips>
 
 	public TripsWriter(Writer writer) throws IOException
 	{
-		super(Trips.class);
+		super(writer, Trips.class);
 	}
 
 	@Override

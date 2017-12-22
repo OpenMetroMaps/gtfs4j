@@ -28,7 +28,7 @@ public class RoutesWriter extends BaseWriter<Route, Routes>
 
 	public RoutesWriter(Writer writer) throws IOException
 	{
-		super(Routes.class);
+		super(writer, Routes.class);
 	}
 
 	@Override

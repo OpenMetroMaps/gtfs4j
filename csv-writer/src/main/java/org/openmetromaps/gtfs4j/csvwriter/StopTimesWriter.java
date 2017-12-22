@@ -28,7 +28,7 @@ public class StopTimesWriter extends BaseWriter<StopTime, StopTimes>
 
 	public StopTimesWriter(Writer writer) throws IOException
 	{
-		super(StopTimes.class);
+		super(writer, StopTimes.class);
 	}
 
 	@Override

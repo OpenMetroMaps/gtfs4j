@@ -64,4 +64,9 @@ public class Test
 		return dir.readCalendar();
 	}
 
+	public static AgencyReader agencyReader() throws IOException
+	{
+		return dir.agencyReader();
+	}
+
 }
