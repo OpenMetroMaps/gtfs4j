@@ -21,10 +21,10 @@ import java.io.Reader;
 
 import au.com.bytecode.opencsv.CSVReader;
 
-class Util
+public class Util
 {
 
-	static int getIndex(String[] array, String name)
+	public static int getIndex(String[] array, String name)
 	{
 		for (int i = 0; i < array.length; i++) {
 			if (array[i].equals(name)) {
@@ -34,7 +34,7 @@ class Util
 		return -1;
 	}
 
-	static CSVReader defaultCsvReader(Reader reader)
+	public static CSVReader defaultCsvReader(Reader reader)
 	{
 		return new CSVReader(reader, ',', '"');
 	}

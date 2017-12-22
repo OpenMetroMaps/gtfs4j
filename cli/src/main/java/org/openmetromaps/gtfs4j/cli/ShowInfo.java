@@ -17,13 +17,21 @@
 
 package org.openmetromaps.gtfs4j.cli;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import org.openmetromaps.gtfs4j.csv.Field;
 import org.openmetromaps.gtfs4j.csv.GtfsFiles;
+import org.openmetromaps.gtfs4j.csvreader.Util;
+
+import au.com.bytecode.opencsv.CSVReader;
 
 public class ShowInfo
 {
@@ -51,6 +59,15 @@ public class ShowInfo
 
 		for (GtfsFiles file : GtfsFiles.values()) {
 			print(zip, file, maxLen);
+		}
+
+		for (GtfsFiles file : GtfsFiles.values()) {
+			// TODO: remove this after implementing all field classes
+			if (file.getFieldClass() == null) {
+				continue;
+			}
+			System.out.println(file.getFilename());
+			printFields(zip, file, file.getFieldClass());
 		}
 	}
 
@@ -85,6 +102,28 @@ public class ShowInfo
 			buffer.append(' ');
 		}
 		return buffer.toString();
+	}
+
+	private void printFields(ZipFile zip, GtfsFiles file,
+			Class<? extends Field> clazz) throws IOException
+	{
+		ZipEntry entry = zip.getEntry(file.getFilename());
+		if (entry == null) {
+			return;
+		}
+		InputStream input = zip.getInputStream(entry);
+		BufferedReader reader = new BufferedReader(
+				new InputStreamReader(input, StandardCharsets.UTF_8));
+
+		CSVReader csvReader = Util.defaultCsvReader(reader);
+		String[] head = csvReader.readNext();
+
+		Field[] fields = clazz.getEnumConstants();
+		for (Field field : fields) {
+			int index = Util.getIndex(head, field.getCsvName());
+			System.out.println(
+					String.format("  %s: %d", field.getCsvName(), index));
+		}
 	}
 
 }
