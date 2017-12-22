@@ -22,7 +22,9 @@ subprojects {
 
 configure([project(':gtfs4j-core'),
         project(':gtfs4j-csv-core'),
-        project(':gtfs4j-csv-reader')]) {
+        project(':gtfs4j-csv-reader'),
+        project(':gtfs4j-csv-writer'),
+        project(':gtfs4j-csv-util')]) {
 
     task sourcesJar(type: Jar, dependsOn: classes) {
         classifier = 'sources'
