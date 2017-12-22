@@ -17,7 +17,6 @@
 
 package org.openmetromaps.gtfs4j.cli;
 
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -57,10 +56,8 @@ public class RunShowInfo
 		String argInput = line.getOptionValue(OPTION_INPUT);
 		Path pathInput = Paths.get(argInput);
 
-		System.out.println("Input: " + pathInput);
-
-		long size = Files.size(pathInput);
-		System.out.println(String.format("File size: %d bytes", size));
+		ShowInfo task = new ShowInfo(pathInput);
+		task.execute();
 	}
 
 }
