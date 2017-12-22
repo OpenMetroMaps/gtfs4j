@@ -44,15 +44,17 @@ public class ShowInfo
 
 		ZipFile zip = new ZipFile(pathInput.toFile());
 
-		print(zip, GtfsFiles.AGENCY);
-		print(zip, GtfsFiles.STOPS);
+		for (GtfsFiles file : GtfsFiles.values()) {
+			print(zip, file);
+		}
 	}
 
 	private static void print(ZipFile zip, GtfsFiles path)
 	{
 		ZipEntry entry = zip.getEntry(path.getFilename());
 		if (entry == null) {
-			System.out.println(String.format("%s: not found", path));
+			System.out.println(String.format("%s: not found (%s)", path,
+					path.isRequired() ? "required" : "optional"));
 			return;
 		}
 		long size = entry.getSize();
