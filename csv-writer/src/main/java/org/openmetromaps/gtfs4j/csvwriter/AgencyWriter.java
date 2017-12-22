@@ -19,7 +19,6 @@ package org.openmetromaps.gtfs4j.csvwriter;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.openmetromaps.gtfs4j.csv.Agencies;
@@ -31,13 +30,6 @@ public class AgencyWriter extends BaseWriter<Agency, Agencies>
 	public AgencyWriter(Writer writer, List<Agencies> fields) throws IOException
 	{
 		super(writer, Agencies.class, fields);
-
-		List<String> values = new ArrayList<>();
-		for (Agencies field : fields) {
-			String name = field.getCsvName();
-			values.add(name);
-		}
-		csvWriter.writeNext(values.toArray(new String[values.size()]));
 	}
 
 	@Override

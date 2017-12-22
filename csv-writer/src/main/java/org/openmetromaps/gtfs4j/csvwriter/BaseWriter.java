@@ -43,6 +43,12 @@ public abstract class BaseWriter<S, T extends Enum<T> & Field>
 		this.fields = fields;
 		csvWriter = new CSVWriter(writer);
 		values = new String[fields.size()];
+
+		for (int i = 0; i < fields.size(); i++) {
+			T field = fields.get(i);
+			values[i] = field.getCsvName();
+		}
+		csvWriter.writeNext(values);
 	}
 
 	public abstract String get(S object, T field);
