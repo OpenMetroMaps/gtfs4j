@@ -70,7 +70,6 @@ their agency by id:
 
 # ToDo list
 
-* FilterRoutes: write filtered data to output zip file
 * Readers and Writers for remaining files and data types
 * Implement data iteration that does not require us to read all data into
   memory at once. (Iterator, Iterable, Callback)
