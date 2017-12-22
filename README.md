@@ -47,6 +47,10 @@ Use the `show-agencies` task to display information about agencies:
 
     gtfs4j-cli show-agencies --input /tmp/gtfs/test.zip
 
+Use the `show-routes` task to display information about routes:
+
+    gtfs4j-cli show-routes --input /tmp/gtfs/test.zip
+
 Use the `filter-routes` task to extract a subset from an existing data file
 that will contain all data belonging to some selected routes.
 Routes can be matched using regular expressions:
