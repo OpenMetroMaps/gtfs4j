@@ -67,3 +67,10 @@ their agency by id:
     gtfs4j-cli filter-routes
         --input /tmp/gtfs/test.zip --output /tmp/gtfs/some.zip
         --agencies 1,564 --pattern "U[0-9]+" --pattern "S[0-9]+"
+
+# ToDo list
+
+* FilterRoutes: write filtered data to output zip file
+* Readers and Writers for remaining files and data types
+* Implement data iteration that does not require us to read all data into
+  memory at once. (Iterator, Iterable, Callback)
