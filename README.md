@@ -53,11 +53,8 @@ Use the `show-routes` task to display information about routes:
 
 Use the `filter-routes` task to extract a subset from an existing data file
 that will contain all data belonging to some selected routes.
-Routes can be matched using regular expressions:
-
-    gtfs4j-cli filter-routes
-        --input /tmp/gtfs/test.zip --output /tmp/gtfs/some.zip
-        --pattern "U[0-9]+" --pattern "S[0-9]+"
+Routes can be matched using regular expressions on their names and on
+their agency by id:
 
     gtfs4j-cli filter-routes
         --input /tmp/gtfs/test.zip --output /tmp/gtfs/some.zip
@@ -65,4 +62,8 @@ Routes can be matched using regular expressions:
 
     gtfs4j-cli filter-routes
         --input /tmp/gtfs/test.zip --output /tmp/gtfs/some.zip
-        --pattern "U[0-9]+" --pattern "S[0-9]+" --agencies 1,564
+        --pattern "U[0-9]+" --pattern "S[0-9]+"
+
+    gtfs4j-cli filter-routes
+        --input /tmp/gtfs/test.zip --output /tmp/gtfs/some.zip
+        --agencies 1,564 --pattern "U[0-9]+" --pattern "S[0-9]+"
