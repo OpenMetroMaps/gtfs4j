@@ -57,12 +57,57 @@ public class GtfsDirectory
 		return path.resolve(gtfsFile.getFilename());
 	}
 
-	public AgencyReader agencyReader() throws IOException
+	public AgencyReader createAgencyReader() throws IOException
 	{
 		Path path = path(GtfsFiles.AGENCY);
 		BufferedReader br = reader(path);
 
 		AgencyReader reader = new AgencyReader(br);
+		return reader;
+	}
+
+	public StopsReader createStopsReader() throws IOException
+	{
+		Path path = path(GtfsFiles.STOPS);
+		BufferedReader br = reader(path);
+
+		StopsReader reader = new StopsReader(br);
+		return reader;
+	}
+
+	public RoutesReader createRoutesReader() throws IOException
+	{
+		Path path = path(GtfsFiles.ROUTES);
+		BufferedReader br = reader(path);
+
+		RoutesReader reader = new RoutesReader(br);
+		return reader;
+	}
+
+	public TripsReader createTripsReader() throws IOException
+	{
+		Path path = path(GtfsFiles.TRIPS);
+		BufferedReader br = reader(path);
+
+		TripsReader reader = new TripsReader(br);
+		return reader;
+	}
+
+	public StopTimesReader createStopTimesReader() throws IOException
+	{
+		Path path = path(GtfsFiles.STOP_TIMES);
+		BufferedReader br = reader(path);
+
+		StopTimesReader reader = new StopTimesReader(br);
+		return reader;
+	}
+
+	public CalendarReader createCalendarReader() throws IOException
+	{
+		Path path = path(GtfsFiles.CALENDAR);
+		BufferedReader br = reader(path);
+
+		CalendarReader reader = new CalendarReader(br);
 		return reader;
 	}
 
