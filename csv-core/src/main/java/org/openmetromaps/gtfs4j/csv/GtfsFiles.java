@@ -37,15 +37,22 @@ public enum GtfsFiles {
 	FEED_INFO("feed_info.txt", false);
 
 	private String filename;
+	private boolean required;
 
 	private GtfsFiles(String filename, boolean required)
 	{
 		this.filename = filename;
+		this.required = required;
 	}
 
 	public String getFilename()
 	{
 		return filename;
+	}
+
+	public boolean isRequired()
+	{
+		return required;
 	}
 
 }
