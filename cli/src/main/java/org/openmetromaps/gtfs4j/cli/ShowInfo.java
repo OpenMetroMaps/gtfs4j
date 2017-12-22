@@ -48,9 +48,9 @@ public class ShowInfo
 		print(zip, GtfsFiles.NAME_STOPS);
 	}
 
-	private static void print(ZipFile zip, String path)
+	private static void print(ZipFile zip, GtfsFiles path)
 	{
-		ZipEntry entry = zip.getEntry(path);
+		ZipEntry entry = zip.getEntry(path.getFilename());
 		if (entry == null) {
 			System.out.println(String.format("%s: not found", path));
 			return;

@@ -8,7 +8,7 @@
 // (at your option) any later version.
 //
 // gtfs4j is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// but WITHOUT ANY WARRANTY), without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
@@ -17,24 +17,35 @@
 
 package org.openmetromaps.gtfs4j.csv;
 
-public class GtfsFiles
-{
+public enum GtfsFiles {
 
 	// Required files
-	public static String NAME_AGENCY = "agency.txt";
-	public static String NAME_STOPS = "stops.txt";
-	public static String NAME_ROUTES = "routes.txt";
-	public static String NAME_TRIPS = "trips.txt";
-	public static String NAME_STOP_TIMES = "stop_times.txt";
-	public static String NAME_CALENDAR = "calendar.txt";
+	NAME_AGENCY("agency.txt", true),
+	NAME_STOPS("stops.txt", true),
+	NAME_ROUTES("routes.txt", true),
+	NAME_TRIPS("trips.txt", true),
+	NAME_STOP_TIMES("stop_times.txt", true),
+	NAME_CALENDAR("calendar.txt", true),
 
 	// Optional files
-	public static String NAME_CALENDAR_DATES = "calendar_dates.txt";
-	public static String NAME_FARE_ATTRIBUTES = "fare_attributes.txt";
-	public static String NAME_FARE_RULES = "fare_rules.txt";
-	public static String NAME_SHAPES = "shapes.txt";
-	public static String NAME_FREQUENCIES = "frequencies.txt";
-	public static String NAME_TRANSFERS = "transfers.txt";
-	public static String NAME_FEED_INFO = "feed_info.txt";
+	NAME_CALENDAR_DATES("calendar_dates.txt", false),
+	NAME_FARE_ATTRIBUTES("fare_attributes.txt", false),
+	NAME_FARE_RULES("fare_rules.txt", false),
+	NAME_SHAPES("shapes.txt", false),
+	NAME_FREQUENCIES("frequencies.txt", false),
+	NAME_TRANSFERS("transfers.txt", false),
+	NAME_FEED_INFO("feed_info.txt", false);
+
+	private String filename;
+
+	private GtfsFiles(String filename, boolean required)
+	{
+		this.filename = filename;
+	}
+
+	public String getFilename()
+	{
+		return filename;
+	}
 
 }

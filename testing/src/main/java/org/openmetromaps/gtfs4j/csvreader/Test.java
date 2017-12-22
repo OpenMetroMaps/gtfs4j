@@ -26,12 +26,6 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import org.openmetromaps.gtfs4j.csv.GtfsFiles;
-import org.openmetromaps.gtfs4j.csvreader.AgencyReader;
-import org.openmetromaps.gtfs4j.csvreader.CalendarReader;
-import org.openmetromaps.gtfs4j.csvreader.RoutesReader;
-import org.openmetromaps.gtfs4j.csvreader.StopTimesReader;
-import org.openmetromaps.gtfs4j.csvreader.StopsReader;
-import org.openmetromaps.gtfs4j.csvreader.TripsReader;
 import org.openmetromaps.gtfs4j.model.Agency;
 import org.openmetromaps.gtfs4j.model.Calendar;
 import org.openmetromaps.gtfs4j.model.Route;
@@ -49,9 +43,14 @@ public class Test
 		return Files.newBufferedReader(path, StandardCharsets.UTF_8);
 	}
 
+	private static Path path(GtfsFiles gtfsFile)
+	{
+		return Test.path.resolve(gtfsFile.getFilename());
+	}
+
 	public static List<Agency> readAgency() throws IOException
 	{
-		Path path = Test.path.resolve(GtfsFiles.NAME_AGENCY);
+		Path path = path(GtfsFiles.NAME_AGENCY);
 		BufferedReader br = reader(path);
 
 		AgencyReader reader = new AgencyReader(br);
@@ -62,7 +61,7 @@ public class Test
 
 	public static List<Route> readRoutes() throws IOException
 	{
-		Path path = Test.path.resolve(GtfsFiles.NAME_ROUTES);
+		Path path = path(GtfsFiles.NAME_ROUTES);
 		BufferedReader br = reader(path);
 
 		RoutesReader reader = new RoutesReader(br);
@@ -73,7 +72,7 @@ public class Test
 
 	public static List<Trip> readTrips() throws IOException
 	{
-		Path path = Test.path.resolve(GtfsFiles.NAME_TRIPS);
+		Path path = path(GtfsFiles.NAME_TRIPS);
 		BufferedReader br = reader(path);
 
 		TripsReader reader = new TripsReader(br);
@@ -84,7 +83,7 @@ public class Test
 
 	public static List<Stop> readStops() throws IOException
 	{
-		Path path = Test.path.resolve(GtfsFiles.NAME_STOPS);
+		Path path = path(GtfsFiles.NAME_STOPS);
 		BufferedReader br = reader(path);
 
 		StopsReader reader = new StopsReader(br);
@@ -95,7 +94,7 @@ public class Test
 
 	public static List<StopTime> readStopTimes() throws IOException
 	{
-		Path path = Test.path.resolve(GtfsFiles.NAME_STOP_TIMES);
+		Path path = path(GtfsFiles.NAME_STOP_TIMES);
 		BufferedReader br = reader(path);
 
 		StopTimesReader reader = new StopTimesReader(br);
@@ -106,7 +105,7 @@ public class Test
 
 	public static List<Calendar> readCalendar() throws IOException
 	{
-		Path path = Test.path.resolve(GtfsFiles.NAME_CALENDAR);
+		Path path = path(GtfsFiles.NAME_CALENDAR);
 		BufferedReader br = reader(path);
 
 		CalendarReader reader = new CalendarReader(br);
