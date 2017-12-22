@@ -48,11 +48,12 @@ public class ShowRoutes
 
 	public void execute() throws IOException
 	{
+		ZipFile zip = new ZipFile(pathInput.toFile());
+
 		if (expandAgency) {
-			loadAgencies();
+			loadAgencies(zip);
 		}
 
-		ZipFile zip = new ZipFile(pathInput.toFile());
 		InputStreamReader isr = CliUtil.reader(zip, GtfsFiles.ROUTES);
 		RoutesReader reader = new RoutesReader(isr);
 		List<Route> data = reader.readAll();
@@ -91,9 +92,8 @@ public class ShowRoutes
 		}
 	}
 
-	private void loadAgencies() throws ZipException, IOException
+	private void loadAgencies(ZipFile zip) throws ZipException, IOException
 	{
-		ZipFile zip = new ZipFile(pathInput.toFile());
 		InputStreamReader isr = CliUtil.reader(zip, GtfsFiles.AGENCY);
 		AgencyReader reader = new AgencyReader(isr);
 		List<Agency> data = reader.readAll();
