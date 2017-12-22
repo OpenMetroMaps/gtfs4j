@@ -79,14 +79,14 @@ public class FilterUtil
 	{
 		InputStreamReader isr = CliUtil.reader(zipInput, GtfsFiles.TRIPS);
 		TripsReader reader = new TripsReader(isr);
-		List<Trip> trips = reader.readAll();
+		List<Trip> data = reader.readAll();
 
 		CliUtil.putEntry(zipOutput, GtfsFiles.TRIPS);
 		OutputStreamWriter osw = new OutputStreamWriter(zipOutput);
 		@SuppressWarnings("resource")
 		TripsWriter writer = new TripsWriter(osw, reader.getFields());
 
-		for (Trip trip : trips) {
+		for (Trip trip : data) {
 			if (routeIds.contains(trip.getRouteId())) {
 				tripIds.add(trip.getId());
 				serviceIds.add(trip.getServiceId());
@@ -98,7 +98,7 @@ public class FilterUtil
 		CliUtil.closeEntry(zipOutput);
 
 		System.out.println(String.format("number of trips: %d / %d",
-				tripIds.size(), trips.size()));
+				tripIds.size(), data.size()));
 	}
 
 	public static void filterCalendars(ZipFile zipInput,
@@ -107,7 +107,7 @@ public class FilterUtil
 	{
 		InputStreamReader isr = CliUtil.reader(zipInput, GtfsFiles.CALENDAR);
 		CalendarReader reader = new CalendarReader(isr);
-		List<Calendar> calendars = reader.readAll();
+		List<Calendar> data = reader.readAll();
 
 		CliUtil.putEntry(zipOutput, GtfsFiles.CALENDAR);
 		OutputStreamWriter osw = new OutputStreamWriter(zipOutput);
@@ -116,7 +116,7 @@ public class FilterUtil
 
 		int numCalendars = 0;
 
-		for (Calendar calendar : calendars) {
+		for (Calendar calendar : data) {
 			if (serviceIds.contains(calendar.getServiceId())) {
 				numCalendars++;
 				writer.write(calendar);
@@ -127,7 +127,7 @@ public class FilterUtil
 		CliUtil.closeEntry(zipOutput);
 
 		System.out.println(String.format("number of calendars: %d / %d",
-				numCalendars, calendars.size()));
+				numCalendars, data.size()));
 	}
 
 	public static void filterStopTimes(ZipFile zipInput,
@@ -136,7 +136,7 @@ public class FilterUtil
 	{
 		InputStreamReader isr = CliUtil.reader(zipInput, GtfsFiles.STOP_TIMES);
 		StopTimesReader reader = new StopTimesReader(isr);
-		List<StopTime> stopTimes = reader.readAll();
+		List<StopTime> data = reader.readAll();
 
 		CliUtil.putEntry(zipOutput, GtfsFiles.STOP_TIMES);
 		OutputStreamWriter osw = new OutputStreamWriter(zipOutput);
@@ -145,7 +145,7 @@ public class FilterUtil
 
 		int numStopTimes = 0;
 
-		for (StopTime stopTime : stopTimes) {
+		for (StopTime stopTime : data) {
 			if (tripIds.contains(stopTime.getTripId())) {
 				numStopTimes++;
 				stopIds.add(stopTime.getStopId());
@@ -157,7 +157,7 @@ public class FilterUtil
 		CliUtil.closeEntry(zipOutput);
 
 		System.out.println(String.format("number of stop times: %d / %d",
-				numStopTimes, stopTimes.size()));
+				numStopTimes, data.size()));
 		System.out
 				.println(String.format("number of stops: %d", stopIds.size()));
 	}
@@ -168,9 +168,9 @@ public class FilterUtil
 	{
 		InputStreamReader isr = CliUtil.reader(zipInput, GtfsFiles.STOPS);
 		StopsReader reader = new StopsReader(isr);
-		List<Stop> stops = reader.readAll();
+		List<Stop> data = reader.readAll();
 
-		for (Stop stop : stops) {
+		for (Stop stop : data) {
 			if (stopIds.contains(stop.getId())) {
 				if (stop.getParentStation() != null
 						&& !stop.getParentStation().isEmpty()) {
@@ -189,7 +189,7 @@ public class FilterUtil
 	{
 		InputStreamReader isr = CliUtil.reader(zipInput, GtfsFiles.STOPS);
 		StopsReader reader = new StopsReader(isr);
-		List<Stop> stops = reader.readAll();
+		List<Stop> data = reader.readAll();
 
 		CliUtil.putEntry(zipOutput, GtfsFiles.STOPS);
 		OutputStreamWriter osw = new OutputStreamWriter(zipOutput);
@@ -198,7 +198,7 @@ public class FilterUtil
 
 		int numStops = 0;
 
-		for (Stop stop : stops) {
+		for (Stop stop : data) {
 			if (parentStationIds.contains(stop.getId())
 					|| stopIds.contains(stop.getId())) {
 				numStops++;
@@ -210,7 +210,7 @@ public class FilterUtil
 		CliUtil.closeEntry(zipOutput);
 
 		System.out.println(String.format("number of stops: %d / %d", numStops,
-				stops.size()));
+				data.size()));
 	}
 
 }
