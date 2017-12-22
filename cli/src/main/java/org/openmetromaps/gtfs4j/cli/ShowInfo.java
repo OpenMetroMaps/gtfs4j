@@ -36,6 +36,8 @@ public class ShowInfo
 
 	private Path pathInput;
 
+	private SizeFormatter sizeFormatter = new SizeFormatter();
+
 	public ShowInfo(Path pathInput)
 	{
 		this.pathInput = pathInput;
@@ -51,7 +53,8 @@ public class ShowInfo
 		print("File path", maxLen, "%s", pathInput);
 
 		long size = Files.size(pathInput);
-		print("File size", maxLen, "%d bytes", size);
+		String formattedSize = sizeFormatter.format(size);
+		print("File size", maxLen, "%s", formattedSize);
 
 		ZipFile zip = new ZipFile(pathInput.toFile());
 
@@ -78,7 +81,8 @@ public class ShowInfo
 			return;
 		}
 		long size = entry.getSize();
-		print(file.getFilename(), pad, "%d bytes", size);
+		String formattedSize = sizeFormatter.format(size);
+		print(file.getFilename(), pad, "%s", formattedSize);
 	}
 
 	private void print(String title, int pad, String format, Object... args)
