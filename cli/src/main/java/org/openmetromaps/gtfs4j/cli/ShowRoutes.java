@@ -100,6 +100,7 @@ public class ShowRoutes
 		InputStreamReader isr = CliUtil.reader(zip, GtfsFiles.AGENCY);
 		AgencyReader reader = new AgencyReader(isr);
 		List<Agency> data = reader.readAll();
+		reader.close();
 		for (Agency agency : data) {
 			String id = agency.getId();
 			agencies.put(id, agency);
