@@ -77,7 +77,7 @@ public class FilterRoutes
 		}
 
 		long size = Files.size(pathInput);
-		System.out.println(String.format("Input file size", "%d bytes", size));
+		System.out.println(String.format("Input file size: %d bytes", size));
 
 		zip = new ZipFile(pathInput.toFile());
 
