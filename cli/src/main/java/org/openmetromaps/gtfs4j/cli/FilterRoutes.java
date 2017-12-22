@@ -32,7 +32,13 @@ import java.util.zip.ZipFile;
 
 import org.openmetromaps.gtfs4j.csv.GtfsFiles;
 import org.openmetromaps.gtfs4j.csvreader.RoutesReader;
+import org.openmetromaps.gtfs4j.csvreader.StopTimesReader;
+import org.openmetromaps.gtfs4j.csvreader.StopsReader;
+import org.openmetromaps.gtfs4j.csvreader.TripsReader;
 import org.openmetromaps.gtfs4j.model.Route;
+import org.openmetromaps.gtfs4j.model.Stop;
+import org.openmetromaps.gtfs4j.model.StopTime;
+import org.openmetromaps.gtfs4j.model.Trip;
 
 public class FilterRoutes
 {
@@ -50,7 +56,13 @@ public class FilterRoutes
 
 	private List<Pattern> patterns = new ArrayList<>();
 
+	private ZipFile zip;
+
 	private Set<String> routeIds = new HashSet<>();
+	private Set<String> tripIds = new HashSet<>();
+	private Set<String> stopIds = new HashSet<>();
+	private int numStopTimes = 0;
+	private Set<String> parentStationIds = new HashSet<>();
 
 	public void execute() throws IOException
 	{
@@ -69,22 +81,36 @@ public class FilterRoutes
 		long size = Files.size(pathInput);
 		System.out.println(String.format("Input file size", "%d bytes", size));
 
-		ZipFile zip = new ZipFile(pathInput.toFile());
+		zip = new ZipFile(pathInput.toFile());
 
-		List<Route> routes = filterRoutes(zip);
-		System.out.println(String.format("number of routes: %d / %d",
-				routeIds.size(), routes.size()));
+		filter();
 
 		zip.close();
 	}
 
-	private List<Route> filterRoutes(ZipFile zip) throws IOException
+	private void filter() throws IOException
 	{
-		ZipEntry entryRoutes = zip.getEntry(GtfsFiles.ROUTES.getFilename());
-		InputStream isRoutes = zip.getInputStream(entryRoutes);
-		InputStreamReader isrRoutes = new InputStreamReader(isRoutes);
-		RoutesReader routesReader = new RoutesReader(isrRoutes);
-		List<Route> routes = routesReader.readAll();
+		filterRoutes();
+
+		filterTrips();
+
+		filterStopTimes();
+
+		filterStops();
+	}
+
+	private InputStreamReader reader(GtfsFiles file) throws IOException
+	{
+		ZipEntry entry = zip.getEntry(file.getFilename());
+		InputStream is = zip.getInputStream(entry);
+		return new InputStreamReader(is);
+	}
+
+	private void filterRoutes() throws IOException
+	{
+		InputStreamReader isr = reader(GtfsFiles.ROUTES);
+		RoutesReader reader = new RoutesReader(isr);
+		List<Route> routes = reader.readAll();
 
 		for (Route route : routes) {
 			String shortName = route.getShortName();
@@ -106,7 +132,63 @@ public class FilterRoutes
 			routeIds.add(route.getId());
 		}
 
-		return routes;
+		System.out.println(String.format("number of routes: %d / %d",
+				routeIds.size(), routes.size()));
+	}
+
+	private void filterTrips() throws IOException
+	{
+		InputStreamReader isr = reader(GtfsFiles.TRIPS);
+		TripsReader reader = new TripsReader(isr);
+
+		List<Trip> trips = reader.readAll();
+		for (Trip trip : trips) {
+			if (routeIds.contains(trip.getRouteId())) {
+				tripIds.add(trip.getId());
+			}
+		}
+
+		System.out.println(String.format("number of trips: %d / %d",
+				tripIds.size(), trips.size()));
+	}
+
+	private void filterStopTimes() throws IOException
+	{
+		InputStreamReader isr = reader(GtfsFiles.STOP_TIMES);
+		StopTimesReader reader = new StopTimesReader(isr);
+		List<StopTime> stopTimes = reader.readAll();
+
+		for (StopTime stopTime : stopTimes) {
+			if (tripIds.contains(stopTime.getTripId())) {
+				numStopTimes++;
+				stopIds.add(stopTime.getStopId());
+			}
+		}
+
+		System.out.println(String.format("number of stop times: %d / %d",
+				numStopTimes, stopTimes.size()));
+		System.out
+				.println(String.format("number of stops: %d", stopIds.size()));
+	}
+
+	private void filterStops() throws IOException
+	{
+		InputStreamReader isr = reader(GtfsFiles.STOPS);
+		StopsReader reader = new StopsReader(isr);
+		List<Stop> stops = reader.readAll();
+
+		for (Stop stop : stops) {
+			if (stopIds.contains(stop.getId())) {
+				System.out.println(stop.getName());
+				if (stop.getParentStation() != null
+						&& !stop.getParentStation().isEmpty()) {
+					parentStationIds.add(stop.getParentStation());
+				}
+			}
+		}
+
+		System.out.println(String.format("number of parent stations: %d",
+				parentStationIds.size()));
 	}
 
 }
