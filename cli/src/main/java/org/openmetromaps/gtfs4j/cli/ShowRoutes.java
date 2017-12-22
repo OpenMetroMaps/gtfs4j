@@ -20,25 +20,38 @@ package org.openmetromaps.gtfs4j.cli;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
 import org.openmetromaps.gtfs4j.csv.GtfsFiles;
+import org.openmetromaps.gtfs4j.csvreader.AgencyReader;
 import org.openmetromaps.gtfs4j.csvreader.RoutesReader;
+import org.openmetromaps.gtfs4j.model.Agency;
 import org.openmetromaps.gtfs4j.model.Route;
 
 public class ShowRoutes
 {
 
 	private Path pathInput;
+	private boolean expandAgency;
 
-	public ShowRoutes(Path pathInput)
+	private Map<String, Agency> agencies = new HashMap<>();
+
+	public ShowRoutes(Path pathInput, boolean expandAgency)
 	{
 		this.pathInput = pathInput;
+		this.expandAgency = expandAgency;
 	}
 
 	public void execute() throws IOException
 	{
+		if (expandAgency) {
+			loadAgencies();
+		}
+
 		ZipFile zip = new ZipFile(pathInput.toFile());
 		InputStreamReader isr = CliUtil.reader(zip, GtfsFiles.ROUTES);
 		RoutesReader reader = new RoutesReader(isr);
@@ -63,13 +76,30 @@ public class ShowRoutes
 			StringBuilder line = new StringBuilder();
 			line.append(name);
 
-			String agency = object.getAgencyId();
-			if (agency != null) {
+			String agencyId = object.getAgencyId();
+			if (agencyId != null) {
 				line.append(", agency: ");
-				line.append(agency);
+				if (!expandAgency) {
+					line.append(agencyId);
+				} else {
+					Agency agency = agencies.get(agencyId);
+					line.append(agency.getName());
+				}
 			}
 
 			System.out.println(line.toString());
+		}
+	}
+
+	private void loadAgencies() throws ZipException, IOException
+	{
+		ZipFile zip = new ZipFile(pathInput.toFile());
+		InputStreamReader isr = CliUtil.reader(zip, GtfsFiles.AGENCY);
+		AgencyReader reader = new AgencyReader(isr);
+		List<Agency> data = reader.readAll();
+		for (Agency agency : data) {
+			String id = agency.getId();
+			agencies.put(id, agency);
 		}
 	}
 

@@ -33,6 +33,7 @@ public class RunShowRoutes
 {
 
 	private static final String OPTION_INPUT = "input";
+	private static final String OPTION_EXPAND_AGENCIES = "expand-agencies";
 
 	public static ExeOptionsFactory OPTIONS_FACTORY = new ExeOptionsFactory() {
 
@@ -42,6 +43,8 @@ public class RunShowRoutes
 			Options options = new Options();
 			// @formatter:off
 			OptionHelper.addL(options, OPTION_INPUT, true, true, "file", "a source GTFS zip file");
+			OptionHelper.addL(options, OPTION_EXPAND_AGENCIES, false, false,
+					"whether agency ids should be resvoled to agency names");
 			// @formatter:on
 			return new CommonsCliExeOptions(options, "[options]");
 		}
@@ -56,7 +59,9 @@ public class RunShowRoutes
 		String argInput = line.getOptionValue(OPTION_INPUT);
 		Path pathInput = Paths.get(argInput);
 
-		ShowRoutes task = new ShowRoutes(pathInput);
+		boolean expandAgencies = line.hasOption(OPTION_EXPAND_AGENCIES);
+
+		ShowRoutes task = new ShowRoutes(pathInput, expandAgencies);
 		task.execute();
 	}
 

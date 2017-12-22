@@ -24,7 +24,7 @@ public class TestShowRoutes
 
 	public static void main(String[] args) throws IOException
 	{
-		ShowRoutes task = new ShowRoutes(TestPaths.pathInput);
+		ShowRoutes task = new ShowRoutes(TestPaths.pathInput, true);
 		task.execute();
 	}
 
