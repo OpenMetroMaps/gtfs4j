@@ -19,6 +19,8 @@ package org.openmetromaps.gtfs4j.cli;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -26,13 +28,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import java.util.zip.ZipOutputStream;
 
 import org.openmetromaps.gtfs4j.csv.GtfsFiles;
 import org.openmetromaps.gtfs4j.csvreader.RoutesReader;
 import org.openmetromaps.gtfs4j.csvreader.StopTimesReader;
 import org.openmetromaps.gtfs4j.csvreader.StopsReader;
 import org.openmetromaps.gtfs4j.csvreader.TripsReader;
+import org.openmetromaps.gtfs4j.csvwriter.RoutesWriter;
+import org.openmetromaps.gtfs4j.csvwriter.TripsWriter;
 import org.openmetromaps.gtfs4j.model.Route;
 import org.openmetromaps.gtfs4j.model.Stop;
 import org.openmetromaps.gtfs4j.model.StopTime;
@@ -61,7 +67,8 @@ public class FilterRoutes
 
 	private List<Pattern> patterns = new ArrayList<>();
 
-	private ZipFile zip;
+	private ZipFile zipInput;
+	private ZipOutputStream zipOutput;
 
 	private Set<String> routeIds = new HashSet<>();
 	private Set<String> tripIds = new HashSet<>();
@@ -96,11 +103,15 @@ public class FilterRoutes
 		long size = Files.size(pathInput);
 		System.out.println(String.format("Input file size: %d bytes", size));
 
-		zip = new ZipFile(pathInput.toFile());
+		zipInput = new ZipFile(pathInput.toFile());
+
+		OutputStream os = Files.newOutputStream(pathOutput);
+		zipOutput = new ZipOutputStream(os);
 
 		filter();
 
-		zip.close();
+		zipInput.close();
+		zipOutput.close();
 	}
 
 	private void filter() throws IOException
@@ -116,7 +127,17 @@ public class FilterRoutes
 
 	private InputStreamReader reader(GtfsFiles file) throws IOException
 	{
-		return CliUtil.reader(zip, file);
+		return CliUtil.reader(zipInput, file);
+	}
+
+	private void putEntry(GtfsFiles file) throws IOException
+	{
+		zipOutput.putNextEntry(new ZipEntry(file.getFilename()));
+	}
+
+	private void closeEntry() throws IOException
+	{
+		zipOutput.closeEntry();
 	}
 
 	private void filterRoutes() throws IOException
@@ -125,11 +146,15 @@ public class FilterRoutes
 		RoutesReader reader = new RoutesReader(isr);
 		List<Route> routes = reader.readAll();
 
+		putEntry(GtfsFiles.ROUTES);
+		OutputStreamWriter osw = new OutputStreamWriter(zipOutput);
+		RoutesWriter writer = new RoutesWriter(osw, reader.getFields());
+
 		for (Route route : routes) {
 			String shortName = route.getShortName();
 
 			if (patterns.isEmpty() && agencyIds.isEmpty()) {
-				use(route);
+				use(writer, route);
 				continue;
 			}
 
@@ -151,35 +176,47 @@ public class FilterRoutes
 			}
 
 			if (use) {
-				use(route);
+				use(writer, route);
 			}
 		}
 
 		System.out.println(String.format("number of routes: %d / %d",
 				routeIds.size(), routes.size()));
+
+		writer.flush();
+		closeEntry();
 	}
 
-	private void use(Route route)
+	private void use(RoutesWriter writer, Route route)
 	{
 		System.out.println(
 				String.format("%s: %s", route.getId(), route.getShortName()));
 		routeIds.add(route.getId());
+		writer.write(route);
 	}
 
 	private void filterTrips() throws IOException
 	{
 		InputStreamReader isr = reader(GtfsFiles.TRIPS);
 		TripsReader reader = new TripsReader(isr);
-
 		List<Trip> trips = reader.readAll();
+
+		putEntry(GtfsFiles.TRIPS);
+		OutputStreamWriter osw = new OutputStreamWriter(zipOutput);
+		TripsWriter writer = new TripsWriter(osw, reader.getFields());
+
 		for (Trip trip : trips) {
 			if (routeIds.contains(trip.getRouteId())) {
 				tripIds.add(trip.getId());
+				writer.write(trip);
 			}
 		}
 
 		System.out.println(String.format("number of trips: %d / %d",
 				tripIds.size(), trips.size()));
+
+		writer.flush();
+		closeEntry();
 	}
 
 	private void filterStopTimes() throws IOException
