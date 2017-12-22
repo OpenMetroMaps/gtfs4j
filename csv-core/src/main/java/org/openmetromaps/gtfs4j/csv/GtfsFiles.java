@@ -20,21 +20,21 @@ package org.openmetromaps.gtfs4j.csv;
 public enum GtfsFiles {
 
 	// Required files
-	NAME_AGENCY("agency.txt", true),
-	NAME_STOPS("stops.txt", true),
-	NAME_ROUTES("routes.txt", true),
-	NAME_TRIPS("trips.txt", true),
-	NAME_STOP_TIMES("stop_times.txt", true),
-	NAME_CALENDAR("calendar.txt", true),
+	AGENCY("agency.txt", true),
+	STOPS("stops.txt", true),
+	ROUTES("routes.txt", true),
+	TRIPS("trips.txt", true),
+	STOP_TIMES("stop_times.txt", true),
+	CALENDAR("calendar.txt", true),
 
 	// Optional files
-	NAME_CALENDAR_DATES("calendar_dates.txt", false),
-	NAME_FARE_ATTRIBUTES("fare_attributes.txt", false),
-	NAME_FARE_RULES("fare_rules.txt", false),
-	NAME_SHAPES("shapes.txt", false),
-	NAME_FREQUENCIES("frequencies.txt", false),
-	NAME_TRANSFERS("transfers.txt", false),
-	NAME_FEED_INFO("feed_info.txt", false);
+	CALENDAR_DATES("calendar_dates.txt", false),
+	FARE_ATTRIBUTES("fare_attributes.txt", false),
+	FARE_RULES("fare_rules.txt", false),
+	SHAPES("shapes.txt", false),
+	FREQUENCIES("frequencies.txt", false),
+	TRANSFERS("transfers.txt", false),
+	FEED_INFO("feed_info.txt", false);
 
 	private String filename;
 

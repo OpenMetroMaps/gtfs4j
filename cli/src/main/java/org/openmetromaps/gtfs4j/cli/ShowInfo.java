@@ -44,8 +44,8 @@ public class ShowInfo
 
 		ZipFile zip = new ZipFile(pathInput.toFile());
 
-		print(zip, GtfsFiles.NAME_AGENCY);
-		print(zip, GtfsFiles.NAME_STOPS);
+		print(zip, GtfsFiles.AGENCY);
+		print(zip, GtfsFiles.STOPS);
 	}
 
 	private static void print(ZipFile zip, GtfsFiles path)

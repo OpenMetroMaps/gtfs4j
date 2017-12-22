@@ -50,7 +50,7 @@ public class Test
 
 	public static List<Agency> readAgency() throws IOException
 	{
-		Path path = path(GtfsFiles.NAME_AGENCY);
+		Path path = path(GtfsFiles.AGENCY);
 		BufferedReader br = reader(path);
 
 		AgencyReader reader = new AgencyReader(br);
@@ -61,7 +61,7 @@ public class Test
 
 	public static List<Route> readRoutes() throws IOException
 	{
-		Path path = path(GtfsFiles.NAME_ROUTES);
+		Path path = path(GtfsFiles.ROUTES);
 		BufferedReader br = reader(path);
 
 		RoutesReader reader = new RoutesReader(br);
@@ -72,7 +72,7 @@ public class Test
 
 	public static List<Trip> readTrips() throws IOException
 	{
-		Path path = path(GtfsFiles.NAME_TRIPS);
+		Path path = path(GtfsFiles.TRIPS);
 		BufferedReader br = reader(path);
 
 		TripsReader reader = new TripsReader(br);
@@ -83,7 +83,7 @@ public class Test
 
 	public static List<Stop> readStops() throws IOException
 	{
-		Path path = path(GtfsFiles.NAME_STOPS);
+		Path path = path(GtfsFiles.STOPS);
 		BufferedReader br = reader(path);
 
 		StopsReader reader = new StopsReader(br);
@@ -94,7 +94,7 @@ public class Test
 
 	public static List<StopTime> readStopTimes() throws IOException
 	{
-		Path path = path(GtfsFiles.NAME_STOP_TIMES);
+		Path path = path(GtfsFiles.STOP_TIMES);
 		BufferedReader br = reader(path);
 
 		StopTimesReader reader = new StopTimesReader(br);
@@ -105,7 +105,7 @@ public class Test
 
 	public static List<Calendar> readCalendar() throws IOException
 	{
-		Path path = path(GtfsFiles.NAME_CALENDAR);
+		Path path = path(GtfsFiles.CALENDAR);
 		BufferedReader br = reader(path);
 
 		CalendarReader reader = new CalendarReader(br);
