@@ -172,7 +172,6 @@ public class FilterUtil
 
 		for (Stop stop : stops) {
 			if (stopIds.contains(stop.getId())) {
-				System.out.println(stop.getName());
 				if (stop.getParentStation() != null
 						&& !stop.getParentStation().isEmpty()) {
 					parentStationIds.add(stop.getParentStation());
@@ -197,16 +196,21 @@ public class FilterUtil
 		@SuppressWarnings("resource")
 		StopsWriter writer = new StopsWriter(osw, reader.getFields());
 
+		int numStops = 0;
+
 		for (Stop stop : stops) {
 			if (parentStationIds.contains(stop.getId())
 					|| stopIds.contains(stop.getId())) {
-				System.out.println(stop.getName());
+				numStops++;
 				writer.write(stop);
 			}
 		}
 
 		writer.flush();
 		CliUtil.closeEntry(zipOutput);
+
+		System.out.println(String.format("number of stops: %d / %d", numStops,
+				stops.size()));
 	}
 
 }
