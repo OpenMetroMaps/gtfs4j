@@ -65,6 +65,7 @@ public class FilterRoutes
 
 	private Set<String> routeIds = new HashSet<>();
 	private Set<String> tripIds = new HashSet<>();
+	private Set<String> serviceIds = new HashSet<>();
 	private Set<String> stopIds = new HashSet<>();
 	private Set<String> parentStationIds = new HashSet<>();
 
@@ -115,7 +116,11 @@ public class FilterRoutes
 		FilterUtil.filterAgencies(zipInput, zipOutput, referencedAgencyIds);
 
 		System.out.println("filtering trips...");
-		FilterUtil.filterTrips(zipInput, zipOutput, routeIds, tripIds);
+		FilterUtil.filterTrips(zipInput, zipOutput, routeIds, tripIds,
+				serviceIds);
+
+		System.out.println("filtering calendars");
+		FilterUtil.filterCalendars(zipInput, zipOutput, serviceIds);
 
 		System.out.println("filtering stop times...");
 		FilterUtil.filterStopTimes(zipInput, zipOutput, tripIds, stopIds);

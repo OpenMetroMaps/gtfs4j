@@ -27,14 +27,17 @@ import java.util.zip.ZipOutputStream;
 
 import org.openmetromaps.gtfs4j.csv.GtfsFiles;
 import org.openmetromaps.gtfs4j.csvreader.AgencyReader;
+import org.openmetromaps.gtfs4j.csvreader.CalendarReader;
 import org.openmetromaps.gtfs4j.csvreader.StopTimesReader;
 import org.openmetromaps.gtfs4j.csvreader.StopsReader;
 import org.openmetromaps.gtfs4j.csvreader.TripsReader;
 import org.openmetromaps.gtfs4j.csvwriter.AgencyWriter;
+import org.openmetromaps.gtfs4j.csvwriter.CalendarWriter;
 import org.openmetromaps.gtfs4j.csvwriter.StopTimesWriter;
 import org.openmetromaps.gtfs4j.csvwriter.StopsWriter;
 import org.openmetromaps.gtfs4j.csvwriter.TripsWriter;
 import org.openmetromaps.gtfs4j.model.Agency;
+import org.openmetromaps.gtfs4j.model.Calendar;
 import org.openmetromaps.gtfs4j.model.Stop;
 import org.openmetromaps.gtfs4j.model.StopTime;
 import org.openmetromaps.gtfs4j.model.Trip;
@@ -71,7 +74,8 @@ public class FilterUtil
 	}
 
 	public static void filterTrips(ZipFile zipInput, ZipOutputStream zipOutput,
-			Set<String> routeIds, Set<String> tripIds) throws IOException
+			Set<String> routeIds, Set<String> tripIds, Set<String> serviceIds)
+			throws IOException
 	{
 		InputStreamReader isr = CliUtil.reader(zipInput, GtfsFiles.TRIPS);
 		TripsReader reader = new TripsReader(isr);
@@ -85,6 +89,7 @@ public class FilterUtil
 		for (Trip trip : trips) {
 			if (routeIds.contains(trip.getRouteId())) {
 				tripIds.add(trip.getId());
+				serviceIds.add(trip.getServiceId());
 				writer.write(trip);
 			}
 		}
@@ -94,6 +99,35 @@ public class FilterUtil
 
 		System.out.println(String.format("number of trips: %d / %d",
 				tripIds.size(), trips.size()));
+	}
+
+	public static void filterCalendars(ZipFile zipInput,
+			ZipOutputStream zipOutput, Set<String> serviceIds)
+			throws IOException
+	{
+		InputStreamReader isr = CliUtil.reader(zipInput, GtfsFiles.CALENDAR);
+		CalendarReader reader = new CalendarReader(isr);
+		List<Calendar> calendars = reader.readAll();
+
+		CliUtil.putEntry(zipOutput, GtfsFiles.CALENDAR);
+		OutputStreamWriter osw = new OutputStreamWriter(zipOutput);
+		@SuppressWarnings("resource")
+		CalendarWriter writer = new CalendarWriter(osw, reader.getFields());
+
+		int numCalendars = 0;
+
+		for (Calendar calendar : calendars) {
+			if (serviceIds.contains(calendar.getServiceId())) {
+				numCalendars++;
+				writer.write(calendar);
+			}
+		}
+
+		writer.flush();
+		CliUtil.closeEntry(zipOutput);
+
+		System.out.println(String.format("number of calendars: %d / %d",
+				numCalendars, calendars.size()));
 	}
 
 	public static void filterStopTimes(ZipFile zipInput,
