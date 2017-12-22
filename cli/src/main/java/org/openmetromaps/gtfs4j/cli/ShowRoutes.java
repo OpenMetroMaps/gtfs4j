@@ -45,7 +45,31 @@ public class ShowRoutes
 		List<Route> data = reader.readAll();
 
 		for (Route object : data) {
-			System.out.println(String.format("%s", object.getShortName()));
+			String longName = object.getLongName();
+			String shortName = object.getShortName();
+
+			boolean hasLongName = longName != null && !longName.isEmpty();
+			boolean hasShortName = shortName != null && !shortName.isEmpty();
+
+			String name = null;
+			if (hasLongName && hasShortName) {
+				name = String.format("%s (%s)", longName, shortName);
+			} else if (hasShortName) {
+				name = shortName;
+			} else if (hasLongName) {
+				name = longName;
+			}
+
+			StringBuilder line = new StringBuilder();
+			line.append(name);
+
+			String agency = object.getAgencyId();
+			if (agency != null) {
+				line.append(", agency: ");
+				line.append(agency);
+			}
+
+			System.out.println(line.toString());
 		}
 	}
 
