@@ -44,6 +44,8 @@ public class ShowAgencies
 		AgencyReader reader = new AgencyReader(isr);
 		List<Agency> data = reader.readAll();
 
+		zip.close();
+
 		for (Agency object : data) {
 			System.out.println(
 					String.format("%s: %s", object.getId(), object.getName()));

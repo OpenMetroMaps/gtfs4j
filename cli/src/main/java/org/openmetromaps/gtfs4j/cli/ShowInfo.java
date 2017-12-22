@@ -70,6 +70,8 @@ public class ShowInfo
 			System.out.println(file.getFilename());
 			printFields(zip, file, file.getFieldClass());
 		}
+
+		zip.close();
 	}
 
 	private void print(ZipFile zip, GtfsFiles file, int pad)

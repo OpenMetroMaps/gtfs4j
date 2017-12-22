@@ -58,6 +58,8 @@ public class ShowRoutes
 		RoutesReader reader = new RoutesReader(isr);
 		List<Route> data = reader.readAll();
 
+		zip.close();
+
 		for (Route object : data) {
 			String longName = object.getLongName();
 			String shortName = object.getShortName();

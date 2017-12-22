@@ -44,6 +44,8 @@ public class ShowStops
 		StopsReader reader = new StopsReader(isr);
 		List<Stop> data = reader.readAll();
 
+		zip.close();
+
 		for (Stop object : data) {
 			String name = object.getName();
 
