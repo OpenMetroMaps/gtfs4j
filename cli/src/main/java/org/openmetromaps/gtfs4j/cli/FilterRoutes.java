@@ -18,7 +18,6 @@
 package org.openmetromaps.gtfs4j.cli;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,7 +26,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
-import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.openmetromaps.gtfs4j.csv.GtfsFiles;
@@ -101,9 +99,7 @@ public class FilterRoutes
 
 	private InputStreamReader reader(GtfsFiles file) throws IOException
 	{
-		ZipEntry entry = zip.getEntry(file.getFilename());
-		InputStream is = zip.getInputStream(entry);
-		return new InputStreamReader(is);
+		return CliUtil.reader(zip, file);
 	}
 
 	private void filterRoutes() throws IOException

@@ -19,9 +19,7 @@ package org.openmetromaps.gtfs4j.cli;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.zip.ZipEntry;
@@ -111,9 +109,8 @@ public class ShowInfo
 		if (entry == null) {
 			return;
 		}
-		InputStream input = zip.getInputStream(entry);
-		BufferedReader reader = new BufferedReader(
-				new InputStreamReader(input, StandardCharsets.UTF_8));
+		InputStreamReader isr = CliUtil.reader(zip, file);
+		BufferedReader reader = new BufferedReader(isr);
 
 		CSVReader csvReader = Util.defaultCsvReader(reader);
 		String[] head = csvReader.readNext();
