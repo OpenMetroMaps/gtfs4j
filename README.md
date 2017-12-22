@@ -74,3 +74,4 @@ their agency by id:
 * Readers and Writers for remaining files and data types
 * Implement data iteration that does not require us to read all data into
   memory at once. (Iterator, Iterable, Callback)
+* Add proper tests with test data and assertions
