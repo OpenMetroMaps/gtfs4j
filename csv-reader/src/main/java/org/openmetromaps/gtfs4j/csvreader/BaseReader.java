@@ -17,6 +17,7 @@
 
 package org.openmetromaps.gtfs4j.csvreader;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ import org.openmetromaps.gtfs4j.csv.Field;
 import au.com.bytecode.opencsv.CSVReader;
 
 public abstract class BaseReader<S, T extends Enum<T> & Field>
+		implements Closeable
 {
 
 	private Class<T> clazz;
@@ -77,5 +79,11 @@ public abstract class BaseReader<S, T extends Enum<T> & Field>
 	}
 
 	public abstract List<S> readAll() throws IOException;
+
+	@Override
+	public void close() throws IOException
+	{
+		csvReader.close();
+	}
 
 }
