@@ -18,8 +18,6 @@
 package org.openmetromaps.gtfs4j.cli;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,14 +26,12 @@ public class TestFilterRoutes
 
 	public static void main(String[] args) throws IOException
 	{
-		Path pathInput = Paths.get("/tmp/gtfs/test.zip");
-		Path pathOutput = Paths.get("/tmp/gtfs/filtered.zip");
-
 		List<String> patterns = new ArrayList<>();
 		patterns.add("S[0-9]+");
 		patterns.add("U[0-9]+");
 
-		FilterRoutes task = new FilterRoutes(pathInput, pathOutput, patterns);
+		FilterRoutes task = new FilterRoutes(TestPaths.pathInput,
+				TestPaths.pathOutput, patterns);
 		task.execute();
 	}
 
