@@ -26,18 +26,49 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 import org.openmetromaps.gtfs4j.csv.GtfsFiles;
+import org.openmetromaps.gtfs4j.csvreader.AgencyReader;
 import org.openmetromaps.gtfs4j.csvreader.StopTimesReader;
 import org.openmetromaps.gtfs4j.csvreader.StopsReader;
 import org.openmetromaps.gtfs4j.csvreader.TripsReader;
+import org.openmetromaps.gtfs4j.csvwriter.AgencyWriter;
 import org.openmetromaps.gtfs4j.csvwriter.StopTimesWriter;
 import org.openmetromaps.gtfs4j.csvwriter.StopsWriter;
 import org.openmetromaps.gtfs4j.csvwriter.TripsWriter;
+import org.openmetromaps.gtfs4j.model.Agency;
 import org.openmetromaps.gtfs4j.model.Stop;
 import org.openmetromaps.gtfs4j.model.StopTime;
 import org.openmetromaps.gtfs4j.model.Trip;
 
 public class FilterUtil
 {
+
+	public static void filterAgencies(ZipFile zipInput,
+			ZipOutputStream zipOutput, Set<String> agencyIds) throws IOException
+	{
+		InputStreamReader isr = CliUtil.reader(zipInput, GtfsFiles.AGENCY);
+		AgencyReader reader = new AgencyReader(isr);
+		List<Agency> data = reader.readAll();
+
+		CliUtil.putEntry(zipOutput, GtfsFiles.AGENCY);
+		OutputStreamWriter osw = new OutputStreamWriter(zipOutput);
+		@SuppressWarnings("resource")
+		AgencyWriter writer = new AgencyWriter(osw, reader.getFields());
+
+		int numAgencies = 0;
+
+		for (Agency agency : data) {
+			if (agencyIds.contains(agency.getId())) {
+				numAgencies++;
+				writer.write(agency);
+			}
+		}
+
+		writer.flush();
+		CliUtil.closeEntry(zipOutput);
+
+		System.out.println(String.format("number of agencies: %d / %d",
+				numAgencies, data.size()));
+	}
 
 	public static void filterTrips(ZipFile zipInput, ZipOutputStream zipOutput,
 			Set<String> routeIds, Set<String> tripIds) throws IOException

@@ -45,6 +45,7 @@ public class FilterRoutes
 	private List<String> patternsSpecs;
 
 	private Set<String> agencyIdSet = new HashSet<>();
+	private Set<String> referencedAgencyIds = new HashSet<>();
 
 	public FilterRoutes(Path pathInput, Path pathOutput, List<String> agencyIds,
 			List<String> patterns)
@@ -109,6 +110,9 @@ public class FilterRoutes
 	{
 		System.out.println("filtering routes...");
 		filterRoutes();
+
+		System.out.println("filtering agencies...");
+		FilterUtil.filterAgencies(zipInput, zipOutput, referencedAgencyIds);
 
 		System.out.println("filtering trips...");
 		FilterUtil.filterTrips(zipInput, zipOutput, routeIds, tripIds);
@@ -188,6 +192,7 @@ public class FilterRoutes
 				String.format("%s: %s", route.getId(), route.getShortName()));
 		routeIds.add(route.getId());
 		writer.write(route);
+		referencedAgencyIds.add(route.getAgencyId());
 	}
 
 }
