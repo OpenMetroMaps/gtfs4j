@@ -17,12 +17,14 @@
 
 package org.openmetromaps.gtfs4j.csvreader;
 
+import java.io.IOException;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 
 import org.openmetromaps.gtfs4j.csv.Field;
 
-public class BaseReader<T extends Enum<T> & Field>
+public abstract class BaseReader<S, T extends Enum<T> & Field>
 {
 
 	protected Map<T, Integer> idx;
@@ -46,5 +48,7 @@ public class BaseReader<T extends Enum<T> & Field>
 			idx.put(field, index);
 		}
 	}
+
+	public abstract List<S> readAll() throws IOException;
 
 }

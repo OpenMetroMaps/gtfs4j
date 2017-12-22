@@ -27,7 +27,7 @@ import org.openmetromaps.gtfs4j.model.StopTime;
 
 import au.com.bytecode.opencsv.CSVReader;
 
-public class StopTimesReader extends BaseReader<StopTimes>
+public class StopTimesReader extends BaseReader<StopTime, StopTimes>
 {
 
 	private CSVReader csvReader;
@@ -42,6 +42,7 @@ public class StopTimesReader extends BaseReader<StopTimes>
 		initIndexes(head);
 	}
 
+	@Override
 	public List<StopTime> readAll() throws IOException
 	{
 		List<StopTime> results = new ArrayList<>();

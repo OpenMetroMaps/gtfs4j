@@ -27,7 +27,7 @@ import org.openmetromaps.gtfs4j.model.Agency;
 
 import au.com.bytecode.opencsv.CSVReader;
 
-public class AgencyReader extends BaseReader<Agencies>
+public class AgencyReader extends BaseReader<Agency, Agencies>
 {
 
 	private CSVReader csvReader;
@@ -43,6 +43,7 @@ public class AgencyReader extends BaseReader<Agencies>
 		initIndexes(head);
 	}
 
+	@Override
 	public List<Agency> readAll() throws IOException
 	{
 		List<Agency> routes = new ArrayList<>();

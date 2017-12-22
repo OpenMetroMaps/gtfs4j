@@ -27,7 +27,7 @@ import org.openmetromaps.gtfs4j.model.Trip;
 
 import au.com.bytecode.opencsv.CSVReader;
 
-public class TripsReader extends BaseReader<Trips>
+public class TripsReader extends BaseReader<Trip, Trips>
 {
 
 	private CSVReader csvReader;
@@ -42,6 +42,7 @@ public class TripsReader extends BaseReader<Trips>
 		initIndexes(head);
 	}
 
+	@Override
 	public List<Trip> readAll() throws IOException
 	{
 		List<Trip> routes = new ArrayList<>();

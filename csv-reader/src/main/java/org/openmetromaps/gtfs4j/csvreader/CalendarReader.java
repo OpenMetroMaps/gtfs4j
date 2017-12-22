@@ -27,7 +27,7 @@ import org.openmetromaps.gtfs4j.model.Calendar;
 
 import au.com.bytecode.opencsv.CSVReader;
 
-public class CalendarReader extends BaseReader<Calendars>
+public class CalendarReader extends BaseReader<Calendar, Calendars>
 {
 
 	private CSVReader csvReader;
@@ -43,6 +43,7 @@ public class CalendarReader extends BaseReader<Calendars>
 		initIndexes(head);
 	}
 
+	@Override
 	public List<Calendar> readAll() throws IOException
 	{
 		List<Calendar> routes = new ArrayList<>();
