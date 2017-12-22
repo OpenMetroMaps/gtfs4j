@@ -72,4 +72,9 @@ public abstract class BaseWriter<S, T extends Enum<T> & Field>
 		csvWriter.close();
 	}
 
+	public void flush() throws IOException
+	{
+		csvWriter.flush();
+	}
+
 }
