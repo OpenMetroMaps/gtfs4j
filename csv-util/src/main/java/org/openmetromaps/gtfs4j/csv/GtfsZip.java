@@ -17,12 +17,15 @@
 
 package org.openmetromaps.gtfs4j.csv;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
 import org.openmetromaps.gtfs4j.csvreader.AgencyReader;
@@ -38,7 +41,7 @@ import org.openmetromaps.gtfs4j.model.Stop;
 import org.openmetromaps.gtfs4j.model.StopTime;
 import org.openmetromaps.gtfs4j.model.Trip;
 
-public class GtfsZip
+public class GtfsZip implements Closeable
 {
 
 	private ZipFile zip;
@@ -46,6 +49,17 @@ public class GtfsZip
 	public GtfsZip(ZipFile zip)
 	{
 		this.zip = zip;
+	}
+
+	public GtfsZip(Path path) throws ZipException, IOException
+	{
+		zip = new ZipFile(path.toFile());
+	}
+
+	@Override
+	public void close() throws IOException
+	{
+		zip.close();
 	}
 
 	private InputStreamReader reader(GtfsFiles file) throws IOException
