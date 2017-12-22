@@ -25,22 +25,12 @@ import java.util.List;
 import org.openmetromaps.gtfs4j.csv.Agencies;
 import org.openmetromaps.gtfs4j.model.Agency;
 
-import au.com.bytecode.opencsv.CSVReader;
-
 public class AgencyReader extends BaseReader<Agency, Agencies>
 {
 
-	private CSVReader csvReader;
-
 	public AgencyReader(Reader reader) throws IOException
 	{
-		super(Agencies.class);
-
-		csvReader = Util.defaultCsvReader(reader);
-
-		String[] head = csvReader.readNext();
-
-		initIndexes(head);
+		super(reader, Agencies.class);
 	}
 
 	@Override

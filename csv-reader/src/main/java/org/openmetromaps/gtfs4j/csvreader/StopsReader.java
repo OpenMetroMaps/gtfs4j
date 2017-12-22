@@ -25,21 +25,12 @@ import java.util.List;
 import org.openmetromaps.gtfs4j.csv.Stops;
 import org.openmetromaps.gtfs4j.model.Stop;
 
-import au.com.bytecode.opencsv.CSVReader;
-
 public class StopsReader extends BaseReader<Stop, Stops>
 {
 
-	private CSVReader csvReader;
-
 	public StopsReader(Reader reader) throws IOException
 	{
-		super(Stops.class);
-
-		csvReader = Util.defaultCsvReader(reader);
-
-		String[] head = csvReader.readNext();
-		initIndexes(head);
+		super(reader, Stops.class);
 	}
 
 	@Override

@@ -18,12 +18,15 @@
 package org.openmetromaps.gtfs4j.csvreader;
 
 import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
 import org.openmetromaps.gtfs4j.csv.Field;
+
+import au.com.bytecode.opencsv.CSVReader;
 
 public abstract class BaseReader<S, T extends Enum<T> & Field>
 {
@@ -32,11 +35,18 @@ public abstract class BaseReader<S, T extends Enum<T> & Field>
 	protected Map<T, Integer> idx;
 	protected List<T> fields;
 
-	public BaseReader(Class<T> clazz)
+	protected CSVReader csvReader;
+
+	public BaseReader(Reader reader, Class<T> clazz) throws IOException
 	{
 		this.clazz = clazz;
 		idx = new EnumMap<>(clazz);
 		fields = new ArrayList<>();
+
+		csvReader = Util.defaultCsvReader(reader);
+
+		String[] head = csvReader.readNext();
+		initIndexes(head);
 	}
 
 	protected boolean hasField(T field)

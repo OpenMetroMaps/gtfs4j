@@ -25,22 +25,12 @@ import java.util.List;
 import org.openmetromaps.gtfs4j.csv.Routes;
 import org.openmetromaps.gtfs4j.model.Route;
 
-import au.com.bytecode.opencsv.CSVReader;
-
 public class RoutesReader extends BaseReader<Route, Routes>
 {
 
-	private CSVReader csvReader;
-
 	public RoutesReader(Reader reader) throws IOException
 	{
-		super(Routes.class);
-
-		csvReader = Util.defaultCsvReader(reader);
-
-		String[] head = csvReader.readNext();
-
-		initIndexes(head);
+		super(reader, Routes.class);
 	}
 
 	@Override

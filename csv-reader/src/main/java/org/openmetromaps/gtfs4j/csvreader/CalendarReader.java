@@ -25,22 +25,12 @@ import java.util.List;
 import org.openmetromaps.gtfs4j.csv.Calendars;
 import org.openmetromaps.gtfs4j.model.Calendar;
 
-import au.com.bytecode.opencsv.CSVReader;
-
 public class CalendarReader extends BaseReader<Calendar, Calendars>
 {
 
-	private CSVReader csvReader;
-
 	public CalendarReader(Reader reader) throws IOException
 	{
-		super(Calendars.class);
-
-		csvReader = Util.defaultCsvReader(reader);
-
-		String[] head = csvReader.readNext();
-
-		initIndexes(head);
+		super(reader, Calendars.class);
 	}
 
 	@Override
