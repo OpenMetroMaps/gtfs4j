@@ -37,28 +37,54 @@ public class ShowInfo
 
 	public void execute() throws IOException
 	{
-		System.out.println("Input: " + pathInput);
+		int maxLen = 0;
+		for (GtfsFiles file : GtfsFiles.values()) {
+			maxLen = Math.max(maxLen, file.getFilename().length());
+		}
+
+		print("File path", maxLen, "%s", pathInput);
 
 		long size = Files.size(pathInput);
-		System.out.println(String.format("File size: %d bytes", size));
+		print("File size", maxLen, "%d bytes", size);
 
 		ZipFile zip = new ZipFile(pathInput.toFile());
 
 		for (GtfsFiles file : GtfsFiles.values()) {
-			print(zip, file);
+			print(zip, file, maxLen);
 		}
 	}
 
-	private static void print(ZipFile zip, GtfsFiles path)
+	private void print(ZipFile zip, GtfsFiles file, int pad)
 	{
-		ZipEntry entry = zip.getEntry(path.getFilename());
+		ZipEntry entry = zip.getEntry(file.getFilename());
 		if (entry == null) {
-			System.out.println(String.format("%s: not found (%s)", path,
-					path.isRequired() ? "required" : "optional"));
+			print(file.getFilename(), pad, "not found (%s)",
+					file.isRequired() ? "required" : "optional");
 			return;
 		}
 		long size = entry.getSize();
-		System.out.println(String.format("%s: %d bytes", path, size));
+		print(file.getFilename(), pad, "%d bytes", size);
+	}
+
+	private void print(String title, int pad, String format, Object... args)
+	{
+		StringBuilder buffer = new StringBuilder();
+		buffer.append(title);
+		buffer.append(":");
+		buffer.append(spaces(title, pad));
+		buffer.append(" ");
+		buffer.append(String.format(format, args));
+		System.out.println(buffer.toString());
+	}
+
+	private String spaces(String string, int pad)
+	{
+		int numSpaces = pad - string.length();
+		StringBuilder buffer = new StringBuilder();
+		for (int i = 0; i < numSpaces; i++) {
+			buffer.append(' ');
+		}
+		return buffer.toString();
 	}
 
 }
