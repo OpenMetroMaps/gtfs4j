@@ -50,8 +50,8 @@ public class RunFilterRoutes
 					"a source GTFS zip file");
 			OptionHelper.addL(options, OPTION_OUTPUT, true, true,
 					"file", "a destination GTFS zip file");
-			OptionHelper.addL(options, OPTION_PATTERN, true, true,
-					"file", "a regular expression for filtering routes by name");
+			OptionHelper.addL(options, OPTION_PATTERN, true, false,
+					"regular expression", "a regular expression for filtering routes by name");
 			// @formatter:on
 			return new CommonsCliExeOptions(options, "[options]");
 		}
@@ -70,7 +70,10 @@ public class RunFilterRoutes
 		Path pathOutput = Paths.get(argOutput);
 
 		List<String> patterns = new ArrayList<>();
-		patterns.addAll(Arrays.asList(line.getOptionValues(OPTION_PATTERN)));
+		if (line.hasOption(OPTION_PATTERN)) {
+			patterns.addAll(
+					Arrays.asList(line.getOptionValues(OPTION_PATTERN)));
+		}
 
 		FilterRoutes task = new FilterRoutes(pathInput, pathOutput, patterns);
 		task.execute();

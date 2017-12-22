@@ -67,6 +67,9 @@ public class FilterRoutes
 		System.out.println("input: " + pathInput);
 		System.out.println("output: " + pathOutput);
 
+		if (patternsSpecs.isEmpty()) {
+			System.out.println("no patterns specified");
+		}
 		for (String patternSpec : patternsSpecs) {
 			System.out.println("pattern: " + patternSpec);
 		}
