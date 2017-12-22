@@ -18,6 +18,7 @@
 package org.openmetromaps.gtfs4j.csvreader;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -27,13 +28,15 @@ import org.openmetromaps.gtfs4j.csv.Field;
 public abstract class BaseReader<S, T extends Enum<T> & Field>
 {
 
-	protected Map<T, Integer> idx;
 	private Class<T> clazz;
+	protected Map<T, Integer> idx;
+	protected List<T> fields;
 
 	public BaseReader(Class<T> clazz)
 	{
 		this.clazz = clazz;
 		idx = new EnumMap<>(clazz);
+		fields = new ArrayList<>();
 	}
 
 	protected boolean hasField(T field)
@@ -43,10 +46,24 @@ public abstract class BaseReader<S, T extends Enum<T> & Field>
 
 	public void initIndexes(String[] head)
 	{
+		for (int i = 0; i < head.length; i++) {
+			fields.add(null);
+		}
 		for (T field : clazz.getEnumConstants()) {
 			int index = Util.getIndex(head, field.getCsvName());
 			idx.put(field, index);
+			if (index >= 0) {
+				fields.set(index, field);
+			}
 		}
+	}
+
+	/**
+	 * Only use this after {@link #initIndexes(String[])} has been called.
+	 */
+	public List<T> getFields()
+	{
+		return fields;
 	}
 
 	public abstract List<S> readAll() throws IOException;

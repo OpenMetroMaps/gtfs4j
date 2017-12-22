@@ -19,6 +19,7 @@ package org.openmetromaps.gtfs4j.csvwriter;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.List;
 
 import org.openmetromaps.gtfs4j.csv.StopTimes;
 import org.openmetromaps.gtfs4j.model.StopTime;
@@ -26,9 +27,10 @@ import org.openmetromaps.gtfs4j.model.StopTime;
 public class StopTimesWriter extends BaseWriter<StopTime, StopTimes>
 {
 
-	public StopTimesWriter(Writer writer) throws IOException
+	public StopTimesWriter(Writer writer, List<StopTimes> fields)
+			throws IOException
 	{
-		super(writer, StopTimes.class);
+		super(writer, StopTimes.class, fields);
 	}
 
 	@Override

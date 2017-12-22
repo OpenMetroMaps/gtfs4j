@@ -28,9 +28,9 @@ import org.openmetromaps.gtfs4j.model.Agency;
 public class AgencyWriter extends BaseWriter<Agency, Agencies>
 {
 
-	public AgencyWriter(Writer writer, Agencies[] fields) throws IOException
+	public AgencyWriter(Writer writer, List<Agencies> fields) throws IOException
 	{
-		super(writer, Agencies.class);
+		super(writer, Agencies.class, fields);
 
 		List<String> values = new ArrayList<>();
 		for (Agencies field : fields) {
@@ -44,7 +44,7 @@ public class AgencyWriter extends BaseWriter<Agency, Agencies>
 	public void write(Agency object)
 	{
 		List<String> values = new ArrayList<>();
-		for (Agencies field : Agencies.values()) {
+		for (Agencies field : fields) {
 			String value = get(object, field);
 			values.add(value);
 		}

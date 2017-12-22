@@ -19,6 +19,7 @@ package org.openmetromaps.gtfs4j.csvwriter;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.List;
 
 import org.openmetromaps.gtfs4j.csv.Routes;
 import org.openmetromaps.gtfs4j.model.Route;
@@ -26,9 +27,9 @@ import org.openmetromaps.gtfs4j.model.Route;
 public class RoutesWriter extends BaseWriter<Route, Routes>
 {
 
-	public RoutesWriter(Writer writer) throws IOException
+	public RoutesWriter(Writer writer, List<Routes> fields) throws IOException
 	{
-		super(writer, Routes.class);
+		super(writer, Routes.class, fields);
 	}
 
 	@Override

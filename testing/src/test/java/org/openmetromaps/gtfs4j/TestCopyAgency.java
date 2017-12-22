@@ -37,7 +37,7 @@ public class TestCopyAgency
 	{
 		AgencyReader reader = Test.agencyReader();
 		List<Agency> data = reader.readAll();
-		Agencies[] fields = Agencies.values();
+		List<Agencies> fields = reader.getFields();
 
 		Path output = Paths.get("/tmp/agency.txt");
 		AgencyWriter writer = new AgencyWriter(
