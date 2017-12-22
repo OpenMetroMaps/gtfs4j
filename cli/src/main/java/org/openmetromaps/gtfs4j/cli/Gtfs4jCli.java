@@ -42,6 +42,8 @@ public class Gtfs4jCli
 					RunShowRoutes.class);
 			options.addCommand("show-stops", RunShowStops.OPTIONS_FACTORY,
 					RunShowStops.class);
+			options.addCommand("show-stations", RunShowStops.OPTIONS_FACTORY,
+					RunShowStations.class);
 			options.addCommand("filter-routes", RunFilterRoutes.OPTIONS_FACTORY,
 					RunFilterRoutes.class);
 			return options;
