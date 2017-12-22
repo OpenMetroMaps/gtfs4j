@@ -36,6 +36,8 @@ public class Gtfs4jCli
 			DelegateExeOptions options = new DelegateExeOptions();
 			options.addCommand("show-info", RunShowInfo.OPTIONS_FACTORY,
 					RunShowInfo.class);
+			options.addCommand("filter-routes", RunFilterRoutes.OPTIONS_FACTORY,
+					RunFilterRoutes.class);
 			return options;
 		}
 
