@@ -18,17 +18,12 @@
 package org.openmetromaps.gtfs4j.cli;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.zip.ZipException;
-import java.util.zip.ZipFile;
 
-import org.openmetromaps.gtfs4j.csv.GtfsFiles;
-import org.openmetromaps.gtfs4j.csvreader.AgencyReader;
-import org.openmetromaps.gtfs4j.csvreader.RoutesReader;
+import org.openmetromaps.gtfs4j.csv.GtfsZip;
 import org.openmetromaps.gtfs4j.model.Agency;
 import org.openmetromaps.gtfs4j.model.Route;
 
@@ -48,16 +43,17 @@ public class ShowRoutes
 
 	public void execute() throws IOException
 	{
-		ZipFile zip = new ZipFile(pathInput.toFile());
+		GtfsZip zip = new GtfsZip(pathInput);
 
 		if (expandAgency) {
-			loadAgencies(zip);
+			List<Agency> data = zip.readAgency();
+			for (Agency agency : data) {
+				String id = agency.getId();
+				agencies.put(id, agency);
+			}
 		}
 
-		InputStreamReader isr = CliUtil.reader(zip, GtfsFiles.ROUTES);
-		RoutesReader reader = new RoutesReader(isr);
-		List<Route> data = reader.readAll();
-		reader.close();
+		List<Route> data = zip.readRoutes();
 
 		zip.close();
 
@@ -92,18 +88,6 @@ public class ShowRoutes
 			}
 
 			System.out.println(line.toString());
-		}
-	}
-
-	private void loadAgencies(ZipFile zip) throws ZipException, IOException
-	{
-		InputStreamReader isr = CliUtil.reader(zip, GtfsFiles.AGENCY);
-		AgencyReader reader = new AgencyReader(isr);
-		List<Agency> data = reader.readAll();
-		reader.close();
-		for (Agency agency : data) {
-			String id = agency.getId();
-			agencies.put(id, agency);
 		}
 	}
 

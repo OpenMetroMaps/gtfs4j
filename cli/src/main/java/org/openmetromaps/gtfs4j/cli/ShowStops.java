@@ -18,13 +18,10 @@
 package org.openmetromaps.gtfs4j.cli;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.zip.ZipFile;
 
-import org.openmetromaps.gtfs4j.csv.GtfsFiles;
-import org.openmetromaps.gtfs4j.csvreader.StopsReader;
+import org.openmetromaps.gtfs4j.csv.GtfsZip;
 import org.openmetromaps.gtfs4j.model.Stop;
 
 public class ShowStops
@@ -39,11 +36,9 @@ public class ShowStops
 
 	public void execute() throws IOException
 	{
-		ZipFile zip = new ZipFile(pathInput.toFile());
-		InputStreamReader isr = CliUtil.reader(zip, GtfsFiles.STOPS);
-		StopsReader reader = new StopsReader(isr);
-		List<Stop> data = reader.readAll();
-		reader.close();
+		GtfsZip zip = new GtfsZip(pathInput);
+
+		List<Stop> data = zip.readStops();
 
 		zip.close();
 

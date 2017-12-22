@@ -18,7 +18,6 @@
 package org.openmetromaps.gtfs4j.cli;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.file.Files;
@@ -28,10 +27,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
-import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 import org.openmetromaps.gtfs4j.csv.GtfsFiles;
+import org.openmetromaps.gtfs4j.csv.GtfsZip;
 import org.openmetromaps.gtfs4j.csvreader.RoutesReader;
 import org.openmetromaps.gtfs4j.csvwriter.RoutesWriter;
 import org.openmetromaps.gtfs4j.model.Route;
@@ -60,7 +59,7 @@ public class FilterRoutes
 
 	private List<Pattern> patterns = new ArrayList<>();
 
-	private ZipFile zipInput;
+	private GtfsZip zipInput;
 	private ZipOutputStream zipOutput;
 
 	private Set<String> routeIds = new HashSet<>();
@@ -96,7 +95,7 @@ public class FilterRoutes
 		long size = Files.size(pathInput);
 		System.out.println(String.format("Input file size: %d bytes", size));
 
-		zipInput = new ZipFile(pathInput.toFile());
+		zipInput = new GtfsZip(pathInput);
 
 		OutputStream os = Files.newOutputStream(pathOutput);
 		zipOutput = new ZipOutputStream(os);
@@ -132,11 +131,6 @@ public class FilterRoutes
 		FilterUtil.filterStops(zipInput, zipOutput, stopIds, parentStationIds);
 	}
 
-	private InputStreamReader reader(GtfsFiles file) throws IOException
-	{
-		return CliUtil.reader(zipInput, file);
-	}
-
 	private void putEntry(GtfsFiles file) throws IOException
 	{
 		CliUtil.putEntry(zipOutput, file);
@@ -149,8 +143,7 @@ public class FilterRoutes
 
 	private void filterRoutes() throws IOException
 	{
-		InputStreamReader isr = reader(GtfsFiles.ROUTES);
-		RoutesReader reader = new RoutesReader(isr);
+		RoutesReader reader = zipInput.createRoutesReader();
 		List<Route> routes = reader.readAll();
 		reader.close();
 

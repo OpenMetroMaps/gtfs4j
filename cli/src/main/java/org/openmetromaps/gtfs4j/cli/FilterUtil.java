@@ -18,14 +18,13 @@
 package org.openmetromaps.gtfs4j.cli;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.List;
 import java.util.Set;
-import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 import org.openmetromaps.gtfs4j.csv.GtfsFiles;
+import org.openmetromaps.gtfs4j.csv.GtfsZip;
 import org.openmetromaps.gtfs4j.csvreader.AgencyReader;
 import org.openmetromaps.gtfs4j.csvreader.CalendarReader;
 import org.openmetromaps.gtfs4j.csvreader.StopTimesReader;
@@ -45,12 +44,11 @@ import org.openmetromaps.gtfs4j.model.Trip;
 public class FilterUtil
 {
 
-	public static void filterAgencies(ZipFile zipInput,
+	public static void filterAgencies(GtfsZip zipInput,
 			ZipOutputStream zipOutput, Set<String> agencyIds) throws IOException
 	{
-		InputStreamReader isr = CliUtil.reader(zipInput, GtfsFiles.AGENCY);
-		AgencyReader reader = new AgencyReader(isr);
-		List<Agency> data = reader.readAll();
+		AgencyReader reader = zipInput.createAgencyReader();
+		List<Agency> data = zipInput.readAgency();
 		reader.close();
 
 		CliUtil.putEntry(zipOutput, GtfsFiles.AGENCY);
@@ -74,12 +72,11 @@ public class FilterUtil
 				numAgencies, data.size()));
 	}
 
-	public static void filterTrips(ZipFile zipInput, ZipOutputStream zipOutput,
+	public static void filterTrips(GtfsZip zipInput, ZipOutputStream zipOutput,
 			Set<String> routeIds, Set<String> tripIds, Set<String> serviceIds)
 			throws IOException
 	{
-		InputStreamReader isr = CliUtil.reader(zipInput, GtfsFiles.TRIPS);
-		TripsReader reader = new TripsReader(isr);
+		TripsReader reader = zipInput.createTripsReader();
 		List<Trip> data = reader.readAll();
 		reader.close();
 
@@ -103,12 +100,11 @@ public class FilterUtil
 				tripIds.size(), data.size()));
 	}
 
-	public static void filterCalendars(ZipFile zipInput,
+	public static void filterCalendars(GtfsZip zipInput,
 			ZipOutputStream zipOutput, Set<String> serviceIds)
 			throws IOException
 	{
-		InputStreamReader isr = CliUtil.reader(zipInput, GtfsFiles.CALENDAR);
-		CalendarReader reader = new CalendarReader(isr);
+		CalendarReader reader = zipInput.createCalendarReader();
 		List<Calendar> data = reader.readAll();
 		reader.close();
 
@@ -133,12 +129,11 @@ public class FilterUtil
 				numCalendars, data.size()));
 	}
 
-	public static void filterStopTimes(ZipFile zipInput,
+	public static void filterStopTimes(GtfsZip zipInput,
 			ZipOutputStream zipOutput, Set<String> tripIds, Set<String> stopIds)
 			throws IOException
 	{
-		InputStreamReader isr = CliUtil.reader(zipInput, GtfsFiles.STOP_TIMES);
-		StopTimesReader reader = new StopTimesReader(isr);
+		StopTimesReader reader = zipInput.createStopTimesReader();
 		List<StopTime> data = reader.readAll();
 		reader.close();
 
@@ -166,12 +161,11 @@ public class FilterUtil
 				.println(String.format("number of stops: %d", stopIds.size()));
 	}
 
-	public static void determineParentStations(ZipFile zipInput,
+	public static void determineParentStations(GtfsZip zipInput,
 			Set<String> stopIds, Set<String> parentStationIds)
 			throws IOException
 	{
-		InputStreamReader isr = CliUtil.reader(zipInput, GtfsFiles.STOPS);
-		StopsReader reader = new StopsReader(isr);
+		StopsReader reader = zipInput.createStopsReader();
 		List<Stop> data = reader.readAll();
 		reader.close();
 
@@ -188,12 +182,11 @@ public class FilterUtil
 				parentStationIds.size()));
 	}
 
-	public static void filterStops(ZipFile zipInput, ZipOutputStream zipOutput,
+	public static void filterStops(GtfsZip zipInput, ZipOutputStream zipOutput,
 			Set<String> stopIds, Set<String> parentStationIds)
 			throws IOException
 	{
-		InputStreamReader isr = CliUtil.reader(zipInput, GtfsFiles.STOPS);
-		StopsReader reader = new StopsReader(isr);
+		StopsReader reader = zipInput.createStopsReader();
 		List<Stop> data = reader.readAll();
 		reader.close();
 
