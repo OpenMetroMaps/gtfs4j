@@ -66,7 +66,7 @@ public class Test
 
 	public static AgencyReader agencyReader() throws IOException
 	{
-		return dir.agencyReader();
+		return dir.createAgencyReader();
 	}
 
 }
