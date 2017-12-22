@@ -15,40 +15,24 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with gtfs4j. If not, see <http://www.gnu.org/licenses/>.
 
-package org.openmetromaps.gtfs4j.csv;
+package org.openmetromaps.gtfs4j;
 
-public enum Agency
-		implements
-		Field {
+import java.io.IOException;
+import java.util.List;
 
-	ID("agency_id", false),
-	NAME("agency_name", true),
-	URL("agency_url", true),
-	TIMEZONE("agency_timezone", true),
-	LANG("agency_lang", false),
-	PHONE("agency_phone", false),
-	FARE_URL("agency_fare_url", false),
-	EMAIL("agency_email", false);
+import org.openmetromaps.gtfs4j.model.Agency;
 
-	private String csvName;
-	private boolean required;
+public class TestReadAgency
+{
 
-	Agency(String csvName, boolean required)
+	public static void main(String[] args) throws IOException
 	{
-		this.csvName = csvName;
-		this.required = required;
-	}
+		List<Agency> agencies = Test.readAgency();
 
-	@Override
-	public String getCsvName()
-	{
-		return csvName;
-	}
-
-	@Override
-	public boolean isRequired()
-	{
-		return required;
+		for (Agency agency : agencies) {
+			System.out.println(String.format("%s: %s, %s", agency.getName(),
+					agency.getUrl(), agency.getTimezone()));
+		}
 	}
 
 }

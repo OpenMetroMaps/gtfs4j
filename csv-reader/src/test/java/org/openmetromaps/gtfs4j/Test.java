@@ -26,10 +26,12 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import org.openmetromaps.gtfs4j.csv.GtfsFiles;
+import org.openmetromaps.gtfs4j.csvreader.AgencyReader;
 import org.openmetromaps.gtfs4j.csvreader.RoutesReader;
 import org.openmetromaps.gtfs4j.csvreader.StopTimesReader;
 import org.openmetromaps.gtfs4j.csvreader.StopsReader;
 import org.openmetromaps.gtfs4j.csvreader.TripsReader;
+import org.openmetromaps.gtfs4j.model.Agency;
 import org.openmetromaps.gtfs4j.model.Route;
 import org.openmetromaps.gtfs4j.model.Stop;
 import org.openmetromaps.gtfs4j.model.StopTime;
@@ -43,6 +45,17 @@ public class Test
 	private static BufferedReader reader(Path path) throws IOException
 	{
 		return Files.newBufferedReader(path, StandardCharsets.UTF_8);
+	}
+
+	public static List<Agency> readAgency() throws IOException
+	{
+		Path path = Test.path.resolve(GtfsFiles.NAME_AGENCY);
+		BufferedReader br = reader(path);
+
+		AgencyReader reader = new AgencyReader(br);
+		List<Agency> list = reader.readAll();
+		br.close();
+		return list;
 	}
 
 	public static List<Route> readRoutes() throws IOException
