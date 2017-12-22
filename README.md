@@ -82,4 +82,3 @@ their agency by id:
 * Implement data iteration that does not require us to read all data into
   memory at once. (Iterator, Iterable, Callback)
 * Add proper tests with test data and assertions
-* Human-readable sizes in `show-info`
