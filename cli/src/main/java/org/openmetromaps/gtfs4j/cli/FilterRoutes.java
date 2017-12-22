@@ -107,12 +107,16 @@ public class FilterRoutes
 
 	private void filter() throws IOException
 	{
+		System.out.println("filtering routes...");
 		filterRoutes();
 
+		System.out.println("filtering trips...");
 		FilterUtil.filterTrips(zipInput, zipOutput, routeIds, tripIds);
 
+		System.out.println("filtering stop times...");
 		FilterUtil.filterStopTimes(zipInput, zipOutput, tripIds, stopIds);
 
+		System.out.println("filtering stops...");
 		FilterUtil.filterStops(zipInput, zipOutput, stopIds, parentStationIds);
 	}
 
