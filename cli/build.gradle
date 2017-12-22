@@ -1,6 +1,7 @@
 dependencies {
     compile project(':gtfs4j-csv-reader')
     compile project(':gtfs4j-csv-writer')
+    compile project(':gtfs4j-csv-util')
 
     compile 'de.topobyte:commons-cli-helper:0.0.6'
 
