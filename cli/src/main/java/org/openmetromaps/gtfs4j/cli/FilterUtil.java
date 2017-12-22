@@ -29,6 +29,8 @@ import org.openmetromaps.gtfs4j.csv.GtfsFiles;
 import org.openmetromaps.gtfs4j.csvreader.StopTimesReader;
 import org.openmetromaps.gtfs4j.csvreader.StopsReader;
 import org.openmetromaps.gtfs4j.csvreader.TripsReader;
+import org.openmetromaps.gtfs4j.csvwriter.StopTimesWriter;
+import org.openmetromaps.gtfs4j.csvwriter.StopsWriter;
 import org.openmetromaps.gtfs4j.csvwriter.TripsWriter;
 import org.openmetromaps.gtfs4j.model.Stop;
 import org.openmetromaps.gtfs4j.model.StopTime;
@@ -56,11 +58,11 @@ public class FilterUtil
 			}
 		}
 
-		System.out.println(String.format("number of trips: %d / %d",
-				tripIds.size(), trips.size()));
-
 		writer.flush();
 		CliUtil.closeEntry(zipOutput);
+
+		System.out.println(String.format("number of trips: %d / %d",
+				tripIds.size(), trips.size()));
 	}
 
 	public static void filterStopTimes(ZipFile zipInput,
@@ -71,14 +73,23 @@ public class FilterUtil
 		StopTimesReader reader = new StopTimesReader(isr);
 		List<StopTime> stopTimes = reader.readAll();
 
+		CliUtil.putEntry(zipOutput, GtfsFiles.STOP_TIMES);
+		OutputStreamWriter osw = new OutputStreamWriter(zipOutput);
+		@SuppressWarnings("resource")
+		StopTimesWriter writer = new StopTimesWriter(osw, reader.getFields());
+
 		int numStopTimes = 0;
 
 		for (StopTime stopTime : stopTimes) {
 			if (tripIds.contains(stopTime.getTripId())) {
 				numStopTimes++;
 				stopIds.add(stopTime.getStopId());
+				writer.write(stopTime);
 			}
 		}
+
+		writer.flush();
+		CliUtil.closeEntry(zipOutput);
 
 		System.out.println(String.format("number of stop times: %d / %d",
 				numStopTimes, stopTimes.size()));
@@ -94,15 +105,24 @@ public class FilterUtil
 		StopsReader reader = new StopsReader(isr);
 		List<Stop> stops = reader.readAll();
 
+		CliUtil.putEntry(zipOutput, GtfsFiles.STOPS);
+		OutputStreamWriter osw = new OutputStreamWriter(zipOutput);
+		@SuppressWarnings("resource")
+		StopsWriter writer = new StopsWriter(osw, reader.getFields());
+
 		for (Stop stop : stops) {
 			if (stopIds.contains(stop.getId())) {
 				System.out.println(stop.getName());
+				writer.write(stop);
 				if (stop.getParentStation() != null
 						&& !stop.getParentStation().isEmpty()) {
 					parentStationIds.add(stop.getParentStation());
 				}
 			}
 		}
+
+		writer.flush();
+		CliUtil.closeEntry(zipOutput);
 
 		System.out.println(String.format("number of parent stations: %d",
 				parentStationIds.size()));
