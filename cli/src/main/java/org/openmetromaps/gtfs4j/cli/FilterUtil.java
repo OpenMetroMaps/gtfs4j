@@ -162,6 +162,28 @@ public class FilterUtil
 				.println(String.format("number of stops: %d", stopIds.size()));
 	}
 
+	public static void determineParentStations(ZipFile zipInput,
+			Set<String> stopIds, Set<String> parentStationIds)
+			throws IOException
+	{
+		InputStreamReader isr = CliUtil.reader(zipInput, GtfsFiles.STOPS);
+		StopsReader reader = new StopsReader(isr);
+		List<Stop> stops = reader.readAll();
+
+		for (Stop stop : stops) {
+			if (stopIds.contains(stop.getId())) {
+				System.out.println(stop.getName());
+				if (stop.getParentStation() != null
+						&& !stop.getParentStation().isEmpty()) {
+					parentStationIds.add(stop.getParentStation());
+				}
+			}
+		}
+
+		System.out.println(String.format("number of parent stations: %d",
+				parentStationIds.size()));
+	}
+
 	public static void filterStops(ZipFile zipInput, ZipOutputStream zipOutput,
 			Set<String> stopIds, Set<String> parentStationIds)
 			throws IOException
@@ -176,21 +198,15 @@ public class FilterUtil
 		StopsWriter writer = new StopsWriter(osw, reader.getFields());
 
 		for (Stop stop : stops) {
-			if (stopIds.contains(stop.getId())) {
+			if (parentStationIds.contains(stop.getId())
+					|| stopIds.contains(stop.getId())) {
 				System.out.println(stop.getName());
 				writer.write(stop);
-				if (stop.getParentStation() != null
-						&& !stop.getParentStation().isEmpty()) {
-					parentStationIds.add(stop.getParentStation());
-				}
 			}
 		}
 
 		writer.flush();
 		CliUtil.closeEntry(zipOutput);
-
-		System.out.println(String.format("number of parent stations: %d",
-				parentStationIds.size()));
 	}
 
 }

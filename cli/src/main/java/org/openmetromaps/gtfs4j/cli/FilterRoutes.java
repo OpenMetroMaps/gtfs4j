@@ -125,6 +125,9 @@ public class FilterRoutes
 		System.out.println("filtering stop times...");
 		FilterUtil.filterStopTimes(zipInput, zipOutput, tripIds, stopIds);
 
+		System.out.println("determining parent stations...");
+		FilterUtil.determineParentStations(zipInput, stopIds, parentStationIds);
+
 		System.out.println("filtering stops...");
 		FilterUtil.filterStops(zipInput, zipOutput, stopIds, parentStationIds);
 	}
