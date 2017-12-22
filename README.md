@@ -13,9 +13,6 @@ See  [LGPL.md](LGPL.md) and [GPL.md](GPL.md) for details.
 
 # Library
 
-NOTE: the artifacts are not published yet. Once they are, the following will
-work.
-
 You can use this library via Maven. To use it from a Gradle project,
 add our Maven server to your repository list:
 
