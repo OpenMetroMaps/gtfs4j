@@ -20,18 +20,19 @@ package org.openmetromaps.gtfs4j;
 import java.io.IOException;
 import java.util.List;
 
-import org.openmetromaps.gtfs4j.model.Agency;
+import org.openmetromaps.gtfs4j.csvreader.Test;
+import org.openmetromaps.gtfs4j.model.Stop;
 
-public class TestReadAgency
+public class TestReadStops
 {
 
 	public static void main(String[] args) throws IOException
 	{
-		List<Agency> agencies = Test.readAgency();
+		List<Stop> stops = Test.readStops();
 
-		for (Agency agency : agencies) {
-			System.out.println(String.format("%s: %s, %s", agency.getName(),
-					agency.getUrl(), agency.getTimezone()));
+		for (Stop stop : stops) {
+			System.out.println(String.format("%s: %s, %s", stop.getName(),
+					stop.getLat(), stop.getLon()));
 		}
 	}
 

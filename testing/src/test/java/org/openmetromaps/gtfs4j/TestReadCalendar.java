@@ -20,18 +20,20 @@ package org.openmetromaps.gtfs4j;
 import java.io.IOException;
 import java.util.List;
 
-import org.openmetromaps.gtfs4j.model.Stop;
+import org.openmetromaps.gtfs4j.csvreader.Test;
+import org.openmetromaps.gtfs4j.model.Calendar;
 
-public class TestReadStops
+public class TestReadCalendar
 {
 
 	public static void main(String[] args) throws IOException
 	{
-		List<Stop> stops = Test.readStops();
+		List<Calendar> calendars = Test.readCalendar();
 
-		for (Stop stop : stops) {
-			System.out.println(String.format("%s: %s, %s", stop.getName(),
-					stop.getLat(), stop.getLon()));
+		for (Calendar calendar : calendars) {
+			System.out.println(
+					String.format("%s: %s, %s", calendar.getServiceId(),
+							calendar.getStartDate(), calendar.getEndDate()));
 		}
 	}
 

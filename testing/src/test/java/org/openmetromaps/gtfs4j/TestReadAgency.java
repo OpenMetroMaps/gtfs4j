@@ -20,19 +20,19 @@ package org.openmetromaps.gtfs4j;
 import java.io.IOException;
 import java.util.List;
 
-import org.openmetromaps.gtfs4j.model.Calendar;
+import org.openmetromaps.gtfs4j.csvreader.Test;
+import org.openmetromaps.gtfs4j.model.Agency;
 
-public class TestReadCalendar
+public class TestReadAgency
 {
 
 	public static void main(String[] args) throws IOException
 	{
-		List<Calendar> calendars = Test.readCalendar();
+		List<Agency> agencies = Test.readAgency();
 
-		for (Calendar calendar : calendars) {
-			System.out.println(
-					String.format("%s: %s, %s", calendar.getServiceId(),
-							calendar.getStartDate(), calendar.getEndDate()));
+		for (Agency agency : agencies) {
+			System.out.println(String.format("%s: %s, %s", agency.getName(),
+					agency.getUrl(), agency.getTimezone()));
 		}
 	}
 

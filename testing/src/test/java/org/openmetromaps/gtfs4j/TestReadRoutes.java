@@ -18,50 +18,22 @@
 package org.openmetromaps.gtfs4j;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
+import org.openmetromaps.gtfs4j.csvreader.Test;
 import org.openmetromaps.gtfs4j.model.Route;
-import org.openmetromaps.gtfs4j.model.StopTime;
-import org.openmetromaps.gtfs4j.model.Trip;
 
-public class TestBerlinU4
+public class TestReadRoutes
 {
 
 	public static void main(String[] args) throws IOException
 	{
 		List<Route> routes = Test.readRoutes();
 
-		String routeId = null;
-
 		for (Route route : routes) {
-			if (route.getShortName().equals("U4")) {
-				routeId = route.getId();
-				System.out.println(String.format(
-						"route id: %s, short: %s, long: %s, type: %s",
-						route.getId(), route.getShortName(),
-						route.getLongName(), route.getType()));
-			}
-		}
-
-		List<String> tripIds = new ArrayList<>();
-
-		List<Trip> trips = Test.readTrips();
-		for (Trip trip : trips) {
-			if (trip.getRouteId().equals(routeId)) {
-				tripIds.add(trip.getId());
-			}
-		}
-
-		System.out.println(String.format("found %d trips", tripIds.size()));
-
-		String tripId = trips.get(0).getId();
-
-		List<StopTime> stopTimes = Test.readStopTimes();
-		for (StopTime stopTime : stopTimes) {
-			if (stopTime.getTripId().equals(tripId)) {
-				System.out.println(stopTime.getStopId());
-			}
+			System.out.println(String.format("%s: %s, %s, %s", route.getId(),
+					route.getShortName(), route.getLongName(),
+					route.getType()));
 		}
 	}
 
