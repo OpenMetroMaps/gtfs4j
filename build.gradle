@@ -1,5 +1,5 @@
 wrapper {
-    gradleVersion = '5.2.1'
+    gradleVersion = '7.6.2'
 }
 
 allprojects {
@@ -8,13 +8,13 @@ allprojects {
 }
 
 subprojects {
-    apply plugin: 'java'
+    apply plugin: 'java-library'
     apply plugin: 'eclipse'
-    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
 
     repositories {
         maven {
-            url 'http://mvn.topobyte.de'
+            url 'https://mvn.topobyte.de'
         }
         mavenCentral()
     }
@@ -44,20 +44,19 @@ configure([project(':gtfs4j-core'),
         pomInfo.name = pomInfoL.name
     }
 
-    afterEvaluate { project ->
-        uploadArchives {
-            repositories {
-                mavenDeployer {
-                    pom.project {
-                        name pomInfo.name
-                        description pomInfo.description
-                        url pomInfo.url
-                        licenses {
-                            license {
-                                name pomInfo.licenseName
-                                url pomInfo.licenseUrl
-                                distribution pomInfo.licenseDistribution
-                            }
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                from components.java
+                pom {
+                    name = "$pomInfo.name"
+                    description = "$pomInfo.description"
+                    url = "$pomInfo.url"
+                    licenses {
+                        license {
+                            name = "$pomInfo.licenseName"
+                            url = "$pomInfo.licenseUrl"
+                            distribution = "$pomInfo.licenseDistribution"
                         }
                     }
                 }

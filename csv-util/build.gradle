@@ -4,9 +4,9 @@ if (project.hasProperty("topobyte")) {
 }
 
 dependencies {
-    compile project(':gtfs4j-csv-reader')
-    compile project(':gtfs4j-csv-writer')
+    api project(':gtfs4j-csv-reader')
+    api project(':gtfs4j-csv-writer')
 
-    testRuntime 'org.slf4j:slf4j-log4j12:1.6.1'
-    testRuntime 'log4j:log4j:1.2.16'
+    testRuntimeOnly 'org.slf4j:slf4j-log4j12:1.6.1'
+    testRuntimeOnly 'log4j:log4j:1.2.16'
 }
